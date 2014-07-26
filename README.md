@@ -35,6 +35,8 @@ There are obviously other ways to achieve the above, for example it is possible 
 
 Before programming the Arduino board you will need to modify the HomeAlarm.ino file with your pin code, otherwise arming and disarming will not work.
 
+Also, when programming the Arduino, be sure to select the Arduino Mega board under /Tools/Board menu.
+
 A few pictures of the hardware can be found in the repository.
 
 Setup of the custom device type
