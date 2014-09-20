@@ -13,37 +13,6 @@ After installing this project, you can control your alarm panel automagically!!!
 
 Date: 8/20/2014
 
-### Supported Alarm Panels
-http://www.alarmdecoder.com/wiki/index.php/Supported_Panels
-
-### Required hardware
-------------------
-* AD2Pi from www.alarmdecoder.com
-* Arduino MEGA
-* Arduino SmartThings shield
-* Jumper wires
-
-### Required software
------------------
-* Arduino IDE (>v1)
-* Libraries and sketch in the Arduino folder in this repository
-* SmartThings Device Type source code in this repository
-
-### SetUp
------------------
-
-### Credits
---------
-* Timer library from Simon Monk
-* Thanks to authors: Vassilis Varveropoulos, Brice Dobry for the ArduinoMega ThingShield library and intial ideas
-* Lots of good ideas from SmartThings @craig whose repository can be found at https://gist.github.com/e5b30109fdaec805d474.git
-
-
-
-## Background
-
-Why would you build a lawn sprinkler system controller when you can just buy one?  But you can’t just buy one... at least not the sprinkler system we were thinking about!!  Let’s start by first making the controller connected.  And of course, we will need iPhone controls.  Then we need to make it smart.  Smart like it knows when it has rained, is raining or will rain!   And then what if we could add cognition so that it actually learns how to water your lawn!  Not that would be really smart!!!
-
 ## High Level Project Steps
 
 1. Order the hardware
