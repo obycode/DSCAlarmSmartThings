@@ -1,78 +1,99 @@
+ 
+/** 
+ * AD2Arduino
+ * Couple your Ademco/Honeywell Alarm to your SmartThings Graph using an AD2PI, an Arduino and a ThingShield
+ * The Arduino passes all your alarm messages to your SmartThings Graph where they can be processed by the Device Type
+ * Use the Device Type to control your alarm or use SmartApps to integrate with other events in your home graph
+ *
+ *
+ ****************************************************************************************************************************
+ * Libraries:
+ * Timer library was created by Simon Monk as modified by JChristensen  https://github.com/JChristensen/Timer.  Note: if you
+ * download the library from the source, you must rename the zip file to "Timer" before importing into the Arduino IDE.
+ * 
+ * Arduino Mega Library for SmartThings SmartShield can be found at:
+ * https://github.com/vassilisv/DSCAlarmSmartThings/tree/master/Arduino/libraries/SmartThingsMega
+ *
+ * SoftwareSerial library was default library provided with Arduino IDE
+ *
+ *
+ ****************************************************************************************************************************
+ *
+ * Pin Configuration for AD2Pi to Arduino Mega
+ * Use standard jumper wires to connect:
+ *  Jumper   AD2PI   Mega
+ *    GND    6       GND
+ *   3.3V    1       3.3V
+ *    RX     10	     19
+ *    TX     8	     18
+ *
+ * Pin Configuration for Arduino Mega to ThingSheild
+ * Use standard jumper wires to connect:
+ *  Jumper      Mega  ThingShield
+ *    RX        17        0
+ *    TX        16        1
+ *
+ *
+ * Credit: thanks to github contributor vassilisv for the intial idea and to AlarmDecoder.com for suggesting to use
+ * serial out feature of the AD2Pi to connect to the Arduino card.  This project also benefitted imenseley from code 
+ * shared by SmartThings contributor  @craig
+ * 
+ */
 
-#include <Event.h>
+#include <SmartThingsMega.h> //special library for Arduino Mega card
 #include <Timer.h>
-#include <SmartThingsMega.h>
 
-#define DEBUG_ENABLE 1
+// For added security, the alarm security code is hard coded here
+String securityCode = "****"; <--------Replace **** with 4 digit alarm code
 
-#define PIN_THING_LED  13
-
-#define BUFFER_SIZE 128
-#define MAX_ZONES 64
-
-#define UPDATE_PERIOD_ARM 25283
-#define UPDATE_PERIOD_ALARM 30123
-#define UPDATE_PERIOD_ZONE 50234
-
+#define BUFFER_SIZE 300 // max message length from ADT
+ 
 SmartThingsCallout_t messageCallout;    // call out function forward decalaration
-SmartThingsMega smartthing(&Serial2, messageCallout, "GenericShield", false);  // constructor
+SmartThingsMega smartthing(&Serial2, messageCallout);  // constructor
 
-
-//set global variables
-Timer timer;
+// set global variables
 char buffer[BUFFER_SIZE];
-boolean zones[MAX_ZONES];
-char armed;
-char mode;
-boolean readyStatus;
-boolean alarm;
+char previousBuffer [BUFFER_SIZE];
+boolean isDebugEnabled=false;  //set to true to debug
 int bufferIdx;
-
-void setup() 
+Timer t;
+  
+void setup()
 {
-  // setup hardware pins 
-  pinMode(PIN_THING_LED, OUTPUT);     // define PIN_LED as an output
-  digitalWrite(PIN_THING_LED, LOW);   // set value to LOW (off) to match stateLED=0
-  smartthing.shieldSetLED(0, 0, 0);
-  // setup IT-100 serial port
-  Serial1.begin(9600);
-
-  // setup debug port
-#ifdef DEBUG_ENABLE
-  Serial.begin(9600);
-  Serial.println("Ready");
-#endif
-
-  // initialize variables
+  // initialize AD2 serial stream
+  Serial1.begin(115200);                
   bufferIdx = 0;
-  readyStatus = true;
-  armed = '0';
-  alarm = false;
-
-  // Now increase the baud rate
-  //  alarmSetBaudRate();
-
-  alarmStatusRequest();
+  
+ //debug stuff
+  if (isDebugEnabled) {
+    Serial.begin(9600);         // setup serial with a baud rate of 9600
+    Serial.println("setup..");  // print out 'setup..' on start
+  }
+  // set SmartThings Shield LED
+  smartthing.shieldSetLED(0, 0, 0); // shield led is off
+  
+  //set device to periodically check in, even if no event has been triggered
+  //this is added to reduce excessive logging to the hub
+  t.every(10L*60L*1000L, sendUpdate); //send update every 10min
 }
-
-
+ 
 void loop()
 {
   char data;
-  // update periodic events
-  timer.update();
   // run smartthing logic
   smartthing.run();
   // capture IT-100 messages
-  if(Serial.available() >0) {  //for debug purposes only
-  data = Serial.read();   //for debug purposes only
-    #ifdef DEBUG_ENABLE
+  if(Serial1.available() >0) {  //for debug purposes only
+    data = Serial1.read();   //for debug purposes only
+    if (isDebugEnabled) {
       Serial.print(data);
-    #endif
+    }
     // if end of message then send to the cloud
     if (data == '\r' && bufferIdx > 0) { 
+      if (isDebugEnabled) {
       Serial.println();
-      processIT100();
+      }
+      processAD2();
     }
     // otherwise append data to buffer (ignore \n)
     else if (data != '\n')  {
@@ -86,377 +107,53 @@ void loop()
       }
     }
   } 
-}
+}    
 
-//proces IT-100 messages
-void processIT100() {
-
-  #ifdef DEBUG_ENABLE
-    Serial.println("processing cmd");
-  #endif
-
+//Process AD2 messages
+void processAD2() {
+  if (strcmp(buffer, previousBuffer)==0) {
+    //do nothing
+  }
+  else {
   // create String object
-  buffer[bufferIdx] = '\0';
-  bufferIdx = 0;
-  String str(buffer);
-
-  // process IT-100 message
-  if (str.length() > 2)
-  {
-    String cmd = str.substring(0,3);
-      // zone open
-      if (cmd.equals("609"))
-      {
-        String msg = "ZN:" + str.substring(0, 6);
-  #ifdef DEBUG_ENABLE
-        Serial.println("Zone " + str.substring(3,6) + " opened");
-  #endif
-        smartthing.send(msg);
+      buffer[bufferIdx] = '\0';
+      bufferIdx = 0;
+      String str(buffer);
+      int quoteIndex = str.indexOf('"');
+      String cmd = str.substring(quoteIndex, str.length());
+      if (str.equals("!Sending..done") || str.indexOf("!RFX:") >=0) {
+        // do nothing
       }
-      // zone closed
-      else if (cmd.equals("610"))
+      else if(cmd.length() > 0)
       {
-        String msg = "ZN:" + str.substring(0, 6);
-#ifdef DEBUG_ENABLE
-        Serial.println("Zone " + str.substring(3,6) + " closed");
-#endif
-        smartthing.send(msg);
+        smartthing.send(cmd); 
       }
-      // ready
-      else if (cmd.equals("650"))
+      else
       {
-        readyStatus = true;
-#ifdef DEBUG_ENABLE
-        Serial.println("Ready");
-#endif
-        sendReadyStatus();
+        smartthing.send(str); 
       }
-      // not ready
-      else if (cmd.equals("651"))
-      {
-        readyStatus = false;
-#ifdef DEBUG_ENABLE
-        Serial.println("Not Ready");
-#endif
-        sendReadyStatus();
-      }
-      // exit delay (arming)
-      else if (cmd.equals("656"))
-      {
-        armed = '2';
-#ifdef DEBUG_ENABLE
-        Serial.println("Arming");
-#endif
-        sendArmStatus(); 
-      }
-      // armed
-      else if (cmd.equals("652"))
-      {
-        digitalWrite(PIN_THING_LED, HIGH);  // turn LED on
-        smartthing.shieldSetLED(0, 0, 1);
-        armed = '1';
-        mode = str[4];
-#ifdef DEBUG_ENABLE
-        Serial.println("Armed " + mode);
-#endif
-        sendArmStatus();
-      }
-      // disarmed (and alarm clear)
-      else if (cmd.equals("655"))
-      {
-        // update status
-        digitalWrite(PIN_THING_LED, LOW);  // turn LED off
-        smartthing.shieldSetLED(0, 0, 0);
-        armed = '0';
-        alarm = false;
-#ifdef DEBUG_ENABLE
-        Serial.println("Disarmed");
-#endif
-        sendArmStatus(); 
-        sendAlarmStatus();
-      } 
-      // alarm triggered
-      else if (cmd.equals("654"))
-      {
-        alarm = true;
-#ifdef DEBUG_ENABLE
-        Serial.println("Alarming");
-#endif
-        sendAlarmStatus();  
-      }
-      else if (cmd.equals("900"))
-      {
-#ifdef DEBUG_ENABLE
-        Serial.println("Need code");
-#endif
-        alarmSendCode();
-      }
-      // LCD Update
-      else if (cmd.equals("901"))
-      {
-#ifdef DEBUG_ENABLE
-        Serial.println("LCD update");
-        Serial.println(str);
-#endif
-        // See if the chime was turned on or off
-        if (str.indexOf("Door Chime") >= 0) {
-          if (str.indexOf("ON") >= 0)
-            sendChimeStatus(true);
-          else
-            sendChimeStatus(false);
-        }
-      }
-#ifdef DEBUG_ENABLE
-      else {
-        Serial.println("unsupported message"); 
-        Serial.println(str);
-      }
-#endif
   }
-}
-
-void sendArmStatus()
-{
-  String msg = String("AR:");
-  msg = msg + armed + mode;
-  smartthing.send(msg);
-#ifdef DEBUG_ENABLE
-  Serial.println();
-  Serial.print(msg);
-#endif
-}
-
-void sendReadyStatus()
-{
-  String msg = String("RD:");
-  if (readyStatus)
-  {
-    msg = msg + "1";
-  }
-  else
-  {
-    msg = msg + "0";
-  }
-  smartthing.send(msg);
-#ifdef DEBUG_ENABLE
-  Serial.println();
-  Serial.print(msg);
-#endif
-}
-
-void sendAlarmStatus()
-{
-  String msg = String("AL:");
-  if (alarm) 
-  {
-    msg = msg + "1";
-  }
-  else
-  {
-    msg = msg + "0";
-  }
-  smartthing.send(msg); 
-#ifdef DEBUG_ENABLE
-  Serial.println();
-  Serial.print(msg);
-#endif  
-}
-
-void sendChimeStatus(boolean state)
-{
-  String msg = String("CH:");
-  if (state) 
-  {
-    msg = msg + "1";
-  }
-  else
-  {
-    msg = msg + "0";
-  }
-  smartthing.send(msg); 
-#ifdef DEBUG_ENABLE
-  Serial.println();
-  Serial.print(msg);
-#endif
-}
-
-void sendZoneStatus()
-{
-  String msg = String("ZN:");
-  for (int n=0; n<MAX_ZONES; ++n) 
-  {
-    if (zones[n]) 
-    {
-      msg = msg + "1";
-    } 
-    else
-    {
-      msg = msg + "0"; 
-    }
-  }
-  smartthing.send(msg); 
-#ifdef DEBUG_ENABLE
-  Serial.println();
-  Serial.print(msg);
-#endif  
-}
-
-void alarmArm()
-{
-  // setup and send arm command
-  String cmd = String("0331****00"); <-------- IMPORTANT: replace * with pin code 
-  cmd = appendChecksum(cmd);
-  Serial1.print(cmd);
-#ifdef DEBUG_ENABLE
-  Serial.print(cmd);
-#endif  
-}
-
-void alarmArmAway()
-{
-  // setup and send arm command
-  String cmd = String("0301");
-  cmd = appendChecksum(cmd);
-  Serial1.print(cmd);
-#ifdef DEBUG_ENABLE
-  Serial.print(cmd);
-#endif  
-}
-
-// No delay
-void alarmArmStay()
-{
-  // setup and send arm command
-  String cmd = String("0321");
-  cmd = appendChecksum(cmd);
-  Serial1.print(cmd);
-#ifdef DEBUG_ENABLE
-  Serial.print(cmd);
-#endif  
-}
-
-void alarmDisarm()
-{
-  // setup and send disarm command
-  String cmd = String("0401051500"); //<------- IMPORTANT: replace * with pin code
-  cmd = appendChecksum(cmd);
-  Serial1.print(cmd);
-#ifdef DEBUG_ENABLE
-  Serial.print(cmd);
-#endif    
-}
-
-void alarmSendBreak()
-{
-  String virtBreak = String("070^");
-  virtBreak = appendChecksum(virtBreak);
-  Serial1.print(virtBreak);
-#ifdef DEBUG_ENABLE
-  Serial.print(virtBreak);
-#endif  
-}
-
-void alarmChimeToggle()
-{
-  String virtC = String("070c");
-  virtC = appendChecksum(virtC);
-  Serial1.print(virtC);
-#ifdef DEBUG_ENABLE
-  Serial.print(virtC);
-#endif
-  timer.after(1800, alarmSendBreak);
-}
-
-void alarmPanic()
-{
-  // setup and send panic command
-  String cmd = String("0603");
-  cmd = appendChecksum(cmd);
-  Serial1.print(cmd);
-#ifdef DEBUG_ENABLE
-  Serial.print(cmd);
-#endif  
-}
-
-void alarmSendCode()
-{
-  String code = String("2001051500"); //<------- IMPORTANT: replace * with pin code
-  code = appendChecksum(code);
-  Serial1.print(code);
-#ifdef DEBUG_ENABLE
-  Serial.print(code);
-#endif
-}
-
-void alarmStatusRequest()
-{
-  // setup and send panic command
-  String cmd = String("001");
-  cmd = appendChecksum(cmd);
-  Serial1.print(cmd);
-#ifdef DEBUG_ENABLE
-  Serial.print(cmd);
-#endif
-}
-
-void alarmSetBaudRate()
-{
-  // setup and send baud rate command
-  // 0=9600, 1=19200, 2=38400, 3=57600, 4=115200
-  String cmd = String("0800");
-  cmd = appendChecksum(cmd);
-  Serial1.print(cmd);
-#ifdef DEBUG_ENABLE
-  Serial.print(cmd);
-#endif
 }
 
 void messageCallout(String message)
-{
-  Serial.println("received: " + message);
-  if (message.equals("update"))
+{ 
+  String code;
+  String cmd;
+  if(message.length()>0)
   {
-    alarmStatusRequest();
-  }
-  else if (message.equals("arm"))
-  {
-    alarmArm();
-  }
-  else if (message.equals("armAway"))
-  {
-    alarmArmAway();
-  }
-  else if (message.equals("armStay"))
-  {
-    alarmArmStay();
-  }
-  else if (message.equals("chimeOn"))
-  {
-    alarmChimeToggle();
-  }
-  else if (message.equals("chimeOff"))
-  {
-    alarmChimeToggle();
-  }
-  else if (message.equals("disarm"))
-  {
-    alarmDisarm();
-  }
-  else if (message.equals("panic"))
-  {
-    alarmPanic();
+    String code = message.substring(0,6);
+    String cmd = message.substring(6);
+    Serial.println(message + "is message");
+    if (code.equals("[CODE]")) {
+      Serial1.println(securityCode + cmd);
+      if (isDebugEnabled) {
+        Serial.println("Sent Alarm: " + securityCode+cmd);
+      }
+    }
   }
 }
-
-String appendChecksum(String str)
+void sendUpdate()
+// periodically have the Arduino send the alarm panel status
 {
-  unsigned char cs = 0;
-  for (int n = 0; n < str.length(); ++n)
-  {
-    cs += (unsigned char)str.charAt(n);
-  }
-  String csStr = String(cs, HEX);
-  csStr.toUpperCase();
-  return String(str + csStr + "\r\n");
+  previousBuffer[0]='\0';  //trigger update by reseting previousBuffer
 }
-
