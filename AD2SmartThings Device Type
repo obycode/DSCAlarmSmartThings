@@ -3,9 +3,9 @@
  *  Adds your home alarm to your SmartThings physical graph
  *  This SmartThings Device Type Code Works With Arduino Connected To An AD2Pi Wired To A Honeywell/Ademco Home Alarm
  *
- *	By Stan Dotson (stan@dotson.info) 
+ *  By d8adrvn
  *
- *	Credits:
+ *  Credits:
  *  Lots of good ideas from @craig whose code can be found at https://gist.github.com/e5b30109fdaec805d474.git
  *  Also relied on architecture enabled by github contributor vassilisv 
  *  Date: 2014-08-14
