@@ -1,0 +1,274 @@
+/**
+ *  Home Alarm Device Type
+ *  Adds your home alarm to your SmartThings physical graph
+ *  This SmartThings Device Type Code Works With Arduino Connected To An AD2Pi Wired To A Honeywell/Ademco Home Alarm
+ *
+ *	By Stan Dotson (stan@dotson.info) 
+ *
+ *	Credits:
+ *  Lots of good ideas from @craig whose code can be found at https://gist.github.com/e5b30109fdaec805d474.git
+ *  Also relied on architecture enabled by github contributor vassilisv 
+ *  Date: 2014-08-14
+ *  
+ */
+ 
+ // for the UI
+
+metadata {
+	definition (name: "Home Alarm v1.3", version: "1.3",author: "stan@dotson.info") 
+    {
+
+		capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
+        capability "Lock"  // <lock> will arm alarm in "away" mode; same as armAway
+        
+        command "disarm"
+        command "armStay"
+        command "armAway"
+        command "chime"
+  
+	}
+}
+	
+	// Simulator metadata
+simulator {
+
+}
+
+// UI tile definitions
+tiles 
+{
+		
+ 	standardTile("main", "device.alarm", width: 2, height: 2, canChangeIcon: true, canChangeBackground: true)
+    {
+		state "disarmed", label:"Disarmed", action:"armStay", icon:"st.Home.home2", backgroundColor:"#ffffff"
+		state "armedAway", label:"Armed Away", action:"disarm", icon:"st.Home.home3", backgroundColor:"#587498"
+		state "armedStay", label:"Armed Stay", action:"disarm", icon:"st.Home.home4", backgroundColor:"#587498"
+        state "alarm", label:"Alarm!", action:"disarm", icon:"st.Home.home3", backgroundColor:"#E86850"
+        state "armingAway", label:"Arming Away", action:"disarm", icon:"st.Home.home3", backgroundColor:"#FFD800"
+		state "armingStay", label:"Arming Stay", action:"disarm", icon:"st.Home.home4", backgroundColor:"#FFD800"
+	}
+ 	standardTile("stay", "device.alarm", width: 1, height: 1, decoration: "flat")
+    {
+        state "disarmed", label: "Stay", action: "armStay", icon:"st.Home.home4", nextState: "armingStay"
+        state "armingStay", label:"Arming Stay", action: "disarm", icon:"st.Home.home4"
+        state "armedStay", label:"Armed Stay", action: "disarm", icon:"st.Home.home4"
+  	}
+        
+  	standardTile("away", "device.alarm", width: 1, height: 1, decoration: "flat")
+    {
+       	state "disarmed", label: "Away", action: "armAway", icon:"st.Home.home3", nextState: "armingAway"
+        state "armingAway", label:"Arming Away", action: "disarm", icon:"st.Home.home3" 
+       	state "armedAway", label:"Armed Away", action: "disarm", icon:"st.Home.home3"   
+  	}
+        
+ 	standardTile("disarm", "device.alarm", width: 1, height: 1, decoration: "flat")
+    {
+       	state "disarmed", label:'Disarm', action: "disarm", icon:"st.Home.home2"   
+ 	}
+        
+   	standardTile("zoneOne", "device.zoneOne", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
+    {
+		state "inactive", label: 'Zone One', icon: "st.contact.contact.closed", backgroundColor: "#ffffff"
+		state "active", label: 'Zone One', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+	}
+	standardTile("zoneTwo", "device.zoneTwo", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
+    {
+		state "inactive", label: 'Zone Two', icon: "st.contact.contact.closed", backgroundColor: "#ffffff"
+        state "active", label: 'Zone Two', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+   	}
+	standardTile("zoneThree", "device.zoneThree", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
+    {
+		state "inactive", label: 'Zone Three', icon: "st.contact.contact.closed", backgroundColor: "#ffffff"
+		state "active", label: 'Zone Three', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+	}
+ 	standardTile("zoneFour", "device.zoneFour", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
+    {
+		state "inactive", label: 'Zone Four', icon: "st.motion.motion.inactive", backgroundColor: "#ffffff"
+		state "active", label: 'Zone Four', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
+	}
+   	standardTile("zoneFive", "device.zoneFive", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
+    {
+		state "inactive", label: 'Zone Five', icon: "st.motion.motion.inactive", backgroundColor: "#ffffff"
+		state "active", label: 'Zone Five', icon: "st.motion.motion.active", backgroundColor: "#53a7c0"
+	}
+  	standardTile("zoneSix", "device.zoneSix", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
+    {
+		state "inactive", label: 'Zone Six', icon: "st.motion.motion.inactive", backgroundColor: "#ffffff"
+		state "active", label: 'Zone Six', icon: "st.motion.motion.active", backgroundColor: "#53a7c0"
+	}              
+        
+  	standardTile("chime", "device.chime", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true, inactiveLabel: false, decoration: "flat")
+    {
+       	state "chimeOn", label: 'Chime On',   action: "chime", icon: "st.custom.sonos.unmuted", backgroundColor: "#ffffff", nextState: "sendingChime"
+       	state "chimeOff", label: 'Chime Off', action: "chime", icon: "st.custom.sonos.muted", backgroundColor: "#ffffff", nextState: "sendingChime"
+       	state "sendingChime", label: 'Sending', action: "chime",icon: "st.custom.sonos.unmuted", backgroundColor: "#ffffff"
+  	}
+
+	standardTile("blank", "device.dummy", width: 1, height:1, decoration:"flat")
+    {
+    	state "default"
+    }
+        
+   	valueTile("msg", "device.msg", width: 3, height:1, inactiveLabel: false, decoration: "flat") 
+    {
+			state "default", label:'${currentValue}'
+	}
+        		
+	main(["main"])
+	details(["main", "stay", "away", "zoneOne","zoneTwo","disarm", "zoneThree","zoneFour","chime","zoneFive","zoneSix", "blank", "msg"])
+}
+
+// Parse incoming device messages to generate events
+def parse(String description) 
+{
+	
+  	def result = []
+    
+//	log.info "Parsing: ${description}"
+
+	def msg = zigbee.parse(description)?.text
+    log.info "Alarm Message: ${msg} "
+    
+    if (msg.contains("ping")) 
+    {
+    }
+    
+    else 
+    {
+		result << createEvent(name: "msg", value: msg)
+   
+
+    	if (msg.contains("Hit") && msg.contains(" for faults"))
+    	{
+        	status()  
+    	}
+    	if (msg.contains("DISARMED"))
+    	{
+        	result << createEvent(name: "alarm", value: "disarmed", displayed: true, isStateChange: true, isPhysical: true)
+            result << createEvent(name: "zoneOne", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwo", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThree", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneFour", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneFive", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneSix", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+    	}   
+ 		if (msg.contains("CHIME"))  {
+        	result << createEvent(name: "chime", value: "chimeOn", displayed: true, isStateChange: true, isPhysical: true)
+    	}
+   		else  {
+       		result << createEvent(name: "chime", value: "chimeOff", displayed: true, isStateChange: true, isPhysical: true)
+    	}
+    
+    	if (msg.contains("DISARM SYSTEM"))
+    	{
+    		result << createEvent(name: "alarm", value: "alarm", displayed: true, isStateChange: true, isPhysical: true)
+    	}
+    	if (msg.contains("ARMED"))
+    	{
+        	if (msg.contains("STAY"))
+    		{
+        		if (msg.contains("You may exit now"))
+    			{
+            		result << createEvent(name: "alarm", value: "armingStay", displayed: true)
+        		}	
+        		else
+            	{
+            		result << createEvent(name: "alarm", value: "armedStay", displayed: true, isStateChange: true, isPhysical: true)
+        		}
+        	}
+        	else if (msg.contains("AWAY"))
+        	{
+        		if (msg.contains("You may exit now"))
+    			{
+            		result << createEvent(name: "alarm", value: "armingAway", displayed: true, isStateChange: true, isPhysical: true)
+        		}
+        		else
+            	{
+            		result << createEvent(name: "alarm", value: "armedAway", displayed: true, isStateChange: true, isPhysical: true)
+				}
+        	}
+    	}
+    	if (msg.contains("FAULT"))
+    	{
+    		log.info "Home Alarm Sensor Fault"
+        	if (msg.contains("01"))
+        	{
+        		log.info "Home Alarm Sensor Fault Zone 01"
+        		result << createEvent(name: "zoneOne", value: "active", displayed: true, isStateChange: true, isPhysical: true)
+            
+        	}
+        	else if (msg.contains("02"))
+        	{
+        		log.info "Home Alarm Sensor Fault 02"
+        		result << createEvent(name: "zoneTwo", value: "active", displayed: true, isStateChange: true, isPhysical: true)
+        	}
+        	else if (msg.contains("03"))
+        	{
+        		log.info "Home Alarm Sensor Fault 03"
+        		result << createEvent(name: "zoneThree", value: "active", displayed: true, isStateChange: true, isPhysical: true)
+        	}
+        	else if (msg.contains("04"))
+        	{
+        		log.info "Home Alarm Sensor Fault 04"
+        		result << createEvent(name: "zoneFour", value: "active", displayed: true, isStateChange: true, isPhysical: true)
+        	}	
+        	else if (msg.contains("05"))
+        	{
+        		log.info "Home Alarm Sensor Fault 05"
+        		result << createEvent(name: "zoneFive", value: "active", displayed: true, isStateChange: true, isPhysical: true)
+        	}
+        	else if (msg.contains("06"))
+        	{
+        		log.info "Home Alarm Sensor Fault 06"
+        		result << createEvent(name: "zoneSix", value: "active", displayed: true, isStateChange: true, isPhysical: true)
+        	}
+    	}
+		log.debug "Parse returned ${result?.descriptionText}"
+		return result
+	}
+}
+
+// Commands sent to the device
+def on() //use to turn on alarm while home
+{  
+	armStay()
+}
+def off() 
+{
+	disarm()
+}
+
+def lock()//use to turn on alarm in away mode
+{
+	armAway()
+}
+
+def unlock()
+{
+	disarm()
+}
+
+def armAway()
+{
+	zigbee.smartShield(text: "[CODE]2").format()    
+}
+def disarm() 
+{
+	zigbee.smartShield(text: "[CODE]1***").format()
+}
+
+def armStay() 
+{
+	zigbee.smartShield(text: "[CODE]3").format()
+}
+
+def chime() 
+{
+	zigbee.smartShield(text: "[CODE]9").format()
+}
+
+//TODO
+//
+// def update()
+// add command to request a refresh of the alarm status
+// for now, just use the disarm tile 
