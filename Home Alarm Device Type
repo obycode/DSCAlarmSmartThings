@@ -15,7 +15,7 @@
  // for the UI
 
 metadata {
-	definition (name: "Home Alarm v1.3", version: "1.3",author: "stan@dotson.info") 
+	definition (name: "Home Alarm v1.3", version: "1.3",author: "d8adrvn") 
     {
 
 		capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
