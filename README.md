@@ -13,6 +13,7 @@ After installing this project, you can control your alarm panel automagically!!!
 
 Date: 8/20/2014
 
+
 ## High Level Project Steps
 
 1. Order the hardware
@@ -26,7 +27,7 @@ Date: 8/20/2014
 8.  Go to My Devices, select the newly added Arduino and edit the Device Type and select the HomeAlarm device type (7.i.)
 9.  Test out system 
 
-## The Hardware
+## The Hardware List
 The AD2Pi was obtained from Alarm Decoder.  www.alarmdecoder.com
 All other items from this project were easily obtained from Amazon via Amazon Prime
 
@@ -36,11 +37,13 @@ All other items from this project were easily obtained from Amazon via Amazon Pr
 * Jumper wires
 * 9V power adapter
 
-### An ArduinoMega with SmartThing ThingShield
+### An ArduinoMega, SmartThing ThingShield and AD2Pi
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4343989/ec207020-406e-11e4-99fc-15962e7c93e3.jpg" width="200px"  />
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4343995/50e33b5a-406f-11e4-9dd5-1b73ab5f8e7f.jpg" width="200px"  />
+
+<img src="https://cloud.githubusercontent.com/assets/5625006/4344057/36bc5f3c-4073-11e4-8ef3-446b950dc4ab.jpg" width="200px"  />
 
 
 ### Wiring
@@ -133,7 +136,13 @@ There are tiles to switch on the alarm in Stay and in Away mode
 There is a tile to toggle the chime
 And there are status tiles for up to 6 zones
 
+<img src="https://cloud.githubusercontent.com/assets/5625006/4344058/524cc110-4073-11e4-8fae-74a83419f47b.jpg" width="200px"  />
+
+
+
 A message tile displays all the messages sent from the AD2Pi
+
+<img src="https://cloud.githubusercontent.com/assets/5625006/4344059/564c0a46-4073-11e4-8e26-062feba8c126.jpg" width="200px"  />
 
 ## Integration of Home Alarm Into Automated Actions:
 
@@ -156,4 +165,3 @@ Have fun integrating!
 * Timer library from Simon Monk
 * Thanks to authors: Vassilis Varveropoulos, Brice Dobry for the ArduinoMega ThingShield library and intial ideas
 * Lots of good ideas from SmartThings @craig whose repository can be found at https://gist.github.com/e5b30109fdaec805d474.git
-
