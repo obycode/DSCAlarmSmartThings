@@ -1,6 +1,7 @@
 ## AD2SmartThings
 ### ===================
-### Integrate your Honeywell/Ademco alarm panel into your SmartThings physical graph
+### Integrate your Honeywell or Ademco alarm panel into your SmartThings physical graph
+ADT / Honeywell / Ademco / Alarm / SmartThings
 
 Do you have a home alarm panel and never use it?  Do you hate the hassle of remember to arm and having to run around to disarm?  
 
