@@ -150,6 +150,9 @@ void messageCallout(String message)
         Serial.println("Sent Alarm: " + securityCode+cmd);
       }
     }
+    if (code.equals("[CONF]")) {
+      Serial1.println("C" + cmd);
+    }
   }
 }
 void sendUpdate()
