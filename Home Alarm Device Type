@@ -3,19 +3,33 @@
  *  Adds your home alarm to your SmartThings physical graph
  *  This SmartThings Device Type Code Works With Arduino Connected To An AD2Pi Wired To A Honeywell/Ademco Home Alarm
  *
- *  By d8adrvn
+ *	By Stan Dotson (stan@dotson.info) 
  *
- *  Credits:
+ *	Credits:
  *  Lots of good ideas from @craig whose code can be found at https://gist.github.com/e5b30109fdaec805d474.git
  *  Also relied on architecture enabled by github contributor vassilisv 
+ *  Also thanks to Sean Matthews for contributing technical approach to setting AD2Pi address
  *  Date: 2014-08-14
  *  
  */
  
  // for the UI
 
+preferences {
+	// pressing the "C" tile on the AD2Pi will normally request the alarm panel to report out its Configurtion into the message tile.
+    // The Configuration Command preferences
+    // allows input of a configuration command to be sent to AD2Pi.  For example, to change the address to 31 the command would be "ADDRESS=31"
+    // after entering the command in setup, you must press the "Config" tile to send the configuration command to the AD2Pi
+    //Note: this will write to the eeprom of the AD2* so caution should be used to not excessively do this task or it would eventually damage the EEPROM. 
+    //This should be preformed only during system setup and configuration!
+    //To prevent excessive use, the configCommand value is reset to null after sending to device
+    
+    input("configCommand", "text", title: "AD2Pi Configuration Command", description: "for example ADDRESS=31", defaultValue: '', required: false, displayDuringSetup: true)
+}
+
+
 metadata {
-	definition (name: "Home Alarm v1.3", version: "1.3",author: "d8adrvn") 
+	definition (name: "Home Alarm v1.32", version: "1.32",author: "stan@dotson.info") 
     {
 
 		capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
@@ -25,6 +39,19 @@ metadata {
         command "armStay"
         command "armAway"
         command "chime"
+        command "config"
+        
+        attribute "alarm", "string"
+        attribute "zoneOne", "string"
+        attribute "zoneTwo", "string"
+        attribute "zoneThree", "string"
+        attribute "zoneFour", "string"
+        attribute "zoneFive", "string"
+        attribute "zoneSix", "string"
+        attribute "msg", "string"
+        
+        
+        
   
 	}
 }
@@ -104,9 +131,9 @@ tiles
        	state "sendingChime", label: 'Sending', action: "chime",icon: "st.custom.sonos.unmuted", backgroundColor: "#ffffff"
   	}
 
-	standardTile("blank", "device.dummy", width: 1, height:1, decoration:"flat")
+	standardTile("configAD2Pi", "device.config", width: 1, height:1, canChangeIcon: true, canChangeBackground: true, inactiveLabel: false, decoration:"flat")
     {
-    	state "default"
+    	state "default", label: 'AD2Pi Config', action: "config", icon: "st.secondary.refresh-icon", backgroundColor: "#ffffff"
     }
         
    	valueTile("msg", "device.msg", width: 3, height:1, inactiveLabel: false, decoration: "flat") 
@@ -115,7 +142,7 @@ tiles
 	}
         		
 	main(["main"])
-	details(["main", "stay", "away", "zoneOne","zoneTwo","disarm", "zoneThree","zoneFour","chime","zoneFive","zoneSix", "blank", "msg"])
+	details(["main", "stay", "away", "zoneOne","zoneTwo","disarm", "zoneThree","zoneFour","chime","zoneFive","zoneSix", "configAD2Pi", "msg"])
 }
 
 // Parse incoming device messages to generate events
@@ -266,6 +293,17 @@ def chime()
 {
 	zigbee.smartShield(text: "[CODE]9").format()
 }
+
+def config()
+	// pressing the "Config" tile on the AD2Pi will normally request the alarm panel to report out its Configurtion into the message tile.
+    // If a Configuration Command was provided as input into the Preferences, this method will send the command down to the Arduino
+    // which will write to the eeprom of the AD2Pi 
+{
+    log.debug "sending AD2Pi Config Command: ${configCommand}"
+    zigbee.smartShield(text: "[CONF]${configCommand}").format()
+//  TODO: reset the configCommand value to null
+}
+
 
 //TODO
 //
