@@ -44,7 +44,7 @@
 #include <Timer.h>
 
 // For added security, the alarm security code is hard coded here
-String securityCode = "****"; <--------Replace **** with 4 digit alarm code
+String securityCode = "****";  <--------Replace **** with 4 digit alarm code
 
 #define BUFFER_SIZE 300 // max message length from ADT
  
@@ -54,7 +54,7 @@ SmartThingsMega smartthing(&Serial2, messageCallout);  // constructor
 // set global variables
 char buffer[BUFFER_SIZE];
 char previousBuffer [BUFFER_SIZE];
-boolean isDebugEnabled=false;  //set to true to debug
+boolean isDebugEnabled=true;  //set to true to debug
 int bufferIdx;
 Timer t;
   
@@ -121,12 +121,17 @@ void processAD2() {
       String str(buffer);
       int quoteIndex = str.indexOf('"');
       String cmd = str.substring(quoteIndex, str.length());
-      if (str.equals("!Sending..done") || str.indexOf("!RFX:") >=0) {
+      if (str.equals("!Sending..done") || str.indexOf("!RFX:") >=0 || str.equals("!>null")) {
         // do nothing
       }
       else if(cmd.length() > 0)
       {
         smartthing.send(cmd); 
+      }
+      else if (str.indexOf("!CONFIG>ADDRESS=") >=0)
+      {
+        smartthing.send(str.substring(8,18));
+        delay (3000);
       }
       else
       {
