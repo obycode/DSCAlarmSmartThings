@@ -1,6 +1,6 @@
  
 /** 
- * AD2Arduino v1.33
+ * AD2SmartThings v1.34
  * Couple your Ademco/Honeywell Alarm to your SmartThings Graph using an AD2PI, an Arduino and a ThingShield
  * The Arduino passes all your alarm messages to your SmartThings Graph where they can be processed by the Device Type
  * Use the Device Type to control your alarm or use SmartApps to integrate with other events in your home graph
@@ -44,7 +44,7 @@
 #include <Timer.h>
 
 // For added security, the alarm security code is hard coded here
-String securityCode = "****";  <--------Replace **** with 4 digit alarm code
+String securityCode = "****"; <--------Replace **** with 4 digit alarm code
 
 #define BUFFER_SIZE 300 // max message length from ADT
  
@@ -56,6 +56,7 @@ char buffer[BUFFER_SIZE];
 char previousBuffer [BUFFER_SIZE];
 boolean isDebugEnabled=true;  //set to true to debug
 int bufferIdx;
+String previousStr;
 Timer t;
   
 void setup()
@@ -146,6 +147,7 @@ void processAD2() {
       {
         smartthing.send(str); 
       }
+    }
   }
 }
 
