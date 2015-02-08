@@ -29,10 +29,10 @@ preferences {
 
 
 metadata {
-	definition (name: "Home Alarm v1.32", version: "1.32",author: "stan@dotson.info") 
+	definition (name: "Home Alarm v1.36", version: "1.36",author: "stan@dotson.info") 
     {
 
-		capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
+	capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
         capability "Lock"  // <lock> will arm alarm in "away" mode; same as armAway
         
         command "disarm"
@@ -56,7 +56,7 @@ metadata {
 	}
 }
 	
-	// Simulator metadata
+// Simulator metadata
 simulator {
 
 }
@@ -66,79 +66,79 @@ tiles
 {
 		
  	standardTile("main", "device.alarm", width: 2, height: 2, canChangeIcon: true, canChangeBackground: true)
-    {
+    	{
 		state "disarmed", label:"Disarmed", action:"armStay", icon:"st.Home.home2", backgroundColor:"#ffffff"
 		state "armedAway", label:"Armed Away", action:"disarm", icon:"st.Home.home3", backgroundColor:"#587498"
 		state "armedStay", label:"Armed Stay", action:"disarm", icon:"st.Home.home4", backgroundColor:"#587498"
-        state "alarm", label:"Alarm!", action:"disarm", icon:"st.Home.home3", backgroundColor:"#E86850"
-        state "armingAway", label:"Arming Away", action:"disarm", icon:"st.Home.home3", backgroundColor:"#FFD800"
+        	state "alarm", label:"Alarm!", action:"disarm", icon:"st.Home.home3", backgroundColor:"#E86850"
+        	state "armingAway", label:"Arming Away", action:"disarm", icon:"st.Home.home3", backgroundColor:"#FFD800"
 		state "armingStay", label:"Arming Stay", action:"disarm", icon:"st.Home.home4", backgroundColor:"#FFD800"
 	}
  	standardTile("stay", "device.alarm", width: 1, height: 1, decoration: "flat")
-    {
-        state "disarmed", label: "Stay", action: "armStay", icon:"st.Home.home4", nextState: "armingStay"
-        state "armingStay", label:"Arming Stay", action: "disarm", icon:"st.Home.home4"
-        state "armedStay", label:"Armed Stay", action: "disarm", icon:"st.Home.home4"
+    	{
+        	state "disarmed", label: "Stay", action: "armStay", icon:"st.Home.home4", nextState: "armingStay"
+        	state "armingStay", label:"Arming Stay", action: "disarm", icon:"st.Home.home4"
+        	state "armedStay", label:"Armed Stay", action: "disarm", icon:"st.Home.home4"
   	}
         
   	standardTile("away", "device.alarm", width: 1, height: 1, decoration: "flat")
-    {
-       	state "disarmed", label: "Away", action: "armAway", icon:"st.Home.home3", nextState: "armingAway"
-        state "armingAway", label:"Arming Away", action: "disarm", icon:"st.Home.home3" 
-       	state "armedAway", label:"Armed Away", action: "disarm", icon:"st.Home.home3"   
+    	{
+       		state "disarmed", label: "Away", action: "armAway", icon:"st.Home.home3", nextState: "armingAway"
+        	state "armingAway", label:"Arming Away", action: "disarm", icon:"st.Home.home3" 
+       		state "armedAway", label:"Armed Away", action: "disarm", icon:"st.Home.home3"   
   	}
         
  	standardTile("disarm", "device.alarm", width: 1, height: 1, decoration: "flat")
-    {
-       	state "disarmed", label:'Disarm', action: "disarm", icon:"st.Home.home2"   
+    	{
+       		state "disarmed", label:'Disarm', action: "disarm", icon:"st.Home.home2"   
  	}
         
    	standardTile("zoneOne", "device.zoneOne", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
-    {
+    	{
 		state "inactive", label: 'Zone One', icon: "st.contact.contact.closed", backgroundColor: "#ffffff"
 		state "active", label: 'Zone One', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
 	}
 	standardTile("zoneTwo", "device.zoneTwo", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
-    {
+    	{
 		state "inactive", label: 'Zone Two', icon: "st.contact.contact.closed", backgroundColor: "#ffffff"
-        state "active", label: 'Zone Two', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+ 		state "active", label: 'Zone Two', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
    	}
 	standardTile("zoneThree", "device.zoneThree", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
-    {
+    	{
 		state "inactive", label: 'Zone Three', icon: "st.contact.contact.closed", backgroundColor: "#ffffff"
 		state "active", label: 'Zone Three', icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
 	}
  	standardTile("zoneFour", "device.zoneFour", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
-    {
+    	{
 		state "inactive", label: 'Zone Four', icon: "st.motion.motion.inactive", backgroundColor: "#ffffff"
 		state "active", label: 'Zone Four', icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
 	}
    	standardTile("zoneFive", "device.zoneFive", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
-    {
+    	{
 		state "inactive", label: 'Zone Five', icon: "st.motion.motion.inactive", backgroundColor: "#ffffff"
 		state "active", label: 'Zone Five', icon: "st.motion.motion.active", backgroundColor: "#53a7c0"
 	}
   	standardTile("zoneSix", "device.zoneSix", width: 1, height:1, canChangeIcon: true, canChangeBackground: true) 
-    {
+    	{
 		state "inactive", label: 'Zone Six', icon: "st.motion.motion.inactive", backgroundColor: "#ffffff"
 		state "active", label: 'Zone Six', icon: "st.motion.motion.active", backgroundColor: "#53a7c0"
 	}              
         
   	standardTile("chime", "device.chime", width: 1, height: 1, canChangeIcon: true, canChangeBackground: true, inactiveLabel: false, decoration: "flat")
-    {
-       	state "chimeOn", label: 'Chime On',   action: "chime", icon: "st.custom.sonos.unmuted", backgroundColor: "#ffffff", nextState: "sendingChime"
-       	state "chimeOff", label: 'Chime Off', action: "chime", icon: "st.custom.sonos.muted", backgroundColor: "#ffffff", nextState: "sendingChime"
-       	state "sendingChime", label: 'Sending', action: "chime",icon: "st.custom.sonos.unmuted", backgroundColor: "#ffffff"
+    	{
+       		state "chimeOn", label: 'Chime On',   action: "chime", icon: "st.custom.sonos.unmuted", backgroundColor: "#ffffff", nextState: "sendingChime"
+       		state "chimeOff", label: 'Chime Off', action: "chime", icon: "st.custom.sonos.muted", backgroundColor: "#ffffff", nextState: "sendingChime"
+       		state "sendingChime", label: 'Sending', action: "chime",icon: "st.custom.sonos.unmuted", backgroundColor: "#ffffff"
   	}
 
 	standardTile("configAD2Pi", "device.config", width: 1, height:1, canChangeIcon: true, canChangeBackground: true, inactiveLabel: false, decoration:"flat")
-    {
-    	state "default", label: 'AD2Pi Config', action: "config", icon: "st.secondary.refresh-icon", backgroundColor: "#ffffff"
-    }
+    	{
+    		state "default", label: 'AD2Pi Config', action: "config", icon: "st.secondary.refresh-icon", backgroundColor: "#ffffff"
+    	}
         
    	valueTile("msg", "device.msg", width: 3, height:1, inactiveLabel: false, decoration: "flat") 
-    {
-			state "default", label:'${currentValue}'
+    	{
+		state "default", label:'${currentValue}'
 	}
         		
 	main(["main"])
@@ -149,30 +149,29 @@ tiles
 def parse(String description) 
 {
 	
-  	def result = []
+	def result = []
     
-//	log.info "Parsing: ${description}"
+    //log.debug "Parsing: ${description}"
 
 	def msg = zigbee.parse(description)?.text
-    log.info "Alarm Message: ${msg} "
+    	log.info "Alarm Message: ${msg} "
     
     if (msg.contains("ping")) 
     {
+    	//do nothing
     }
     
     else 
     {
-		result << createEvent(name: "msg", value: msg)
-   
-
-    	if (msg.contains("Hit") && msg.contains(" for faults"))
-    	{
-        	status()  
+	result << createEvent(name: "msg", value: msg)   //display message to message tile
+	if (msg.contains("...."))  {
+		result << createEvent(name: "msg", value: "Having Trouble Sending") 
     	}
+    	
     	if (msg.contains("DISARMED"))
     	{
         	result << createEvent(name: "alarm", value: "disarmed", displayed: true, isStateChange: true, isPhysical: true)
-            result << createEvent(name: "zoneOne", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+            	result << createEvent(name: "zoneOne", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneTwo", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneThree", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneFour", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
@@ -295,18 +294,12 @@ def chime()
 }
 
 def config()
-	// pressing the "Config" tile on the AD2Pi will normally request the alarm panel to report out its Configurtion into the message tile.
+    // pressing the "Config" tile on the AD2Pi will normally request the alarm panel to report out its Configurtion into the message tile.
     // If a Configuration Command was provided as input into the Preferences, this method will send the command down to the Arduino
     // which will write to the eeprom of the AD2Pi 
 {
-    log.debug "sending AD2Pi Config Command: ${configCommand}"
+    log.info "sending AD2Pi Config Command: ${configCommand}"
     zigbee.smartShield(text: "[CONF]${configCommand}").format()
 //  TODO: reset the configCommand value to null
 }
 
-
-//TODO
-//
-// def update()
-// add command to request a refresh of the alarm status
-// for now, just use the disarm tile 
