@@ -1,6 +1,6 @@
  
 /** 
- * AD2SmartThings v1.34
+ * AD2SmartThings v1.36
  * Couple your Ademco/Honeywell Alarm to your SmartThings Graph using an AD2PI, an Arduino and a ThingShield
  * The Arduino passes all your alarm messages to your SmartThings Graph where they can be processed by the Device Type
  * Use the Device Type to control your alarm or use SmartApps to integrate with other events in your home graph
@@ -53,7 +53,6 @@ SmartThingsMega smartthing(&Serial2, messageCallout);  // constructor
 
 // set global variables
 char buffer[BUFFER_SIZE];
-char previousBuffer [BUFFER_SIZE];
 boolean isDebugEnabled=true;  //set to true to debug
 int bufferIdx;
 String previousStr;
@@ -108,48 +107,44 @@ void loop()
       }
     }
   } 
+  t.update(); 
 }    
 
 //Process AD2 messages
 void processAD2() {
-  if (strcmp(buffer, previousBuffer)==0) {
-    //do nothing
-  }
-  else {
   // create String object
-      buffer[bufferIdx] = '\0';
-      bufferIdx = 0;
-      String str(buffer);
+  buffer[bufferIdx] = '\0'; //adds null at end of buffer
+  bufferIdx = 0; // reset  counter for next message
+  String str(buffer);
  
-   //check to see if string message is different
-   if (str.equals(previousStr))
-      {
-      // do nothing
-      }
-    else
-    {
-      previousStr = str;     
-      int quoteIndex = str.indexOf('"');
-      String cmd = str.substring(quoteIndex, str.length());
-      if (str.equals("!Sending..done") || str.indexOf("!RFX:") >=0 || str.equals("!>null")) {
-        // do nothing
-      }
-      else if(cmd.length() > 0)
-      {
-        smartthing.send(cmd); 
-      }
-      else if (str.indexOf("!CONFIG>ADDRESS=") >=0)
-      {
-        smartthing.send(str.substring(8,18));
-        delay (3000);
-      }
-      else
-      {
-        smartthing.send(str); 
-      }
-    }
+  //check to see if string message is different
+  if (str.equals(previousStr))
+  {
+   // do nothing
   }
-}
+  else
+  {
+   previousStr = str;     
+   int quoteIndex = str.indexOf('"');
+   String cmd = str.substring(quoteIndex, str.length());
+   if (str.indexOf("!RFX:") >=0 || str.equals("!>null")) {
+    // do nothing
+   }
+   else if(cmd.length() > 0)
+   {
+    smartthing.send(cmd); 
+   }
+   else if (str.indexOf("!CONFIG>ADDRESS=") >=0)
+   {
+    smartthing.send(str.substring(8,18));
+    delay (3000);
+   }
+   else
+   {
+    smartthing.send(str); 
+   }
+  }
+ }
 
 void messageCallout(String message)
 { 
@@ -174,5 +169,5 @@ void messageCallout(String message)
 void sendUpdate()
 // periodically have the Arduino send the alarm panel status
 {
-  previousBuffer[0]='\0';  //trigger update by reseting previousBuffer
+  previousStr="";
 }
