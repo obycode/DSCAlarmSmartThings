@@ -38,7 +38,7 @@ preferences {
 
 
 metadata {
-	definition (name: "AD2SmartThings v2.0", version: "2.0",author: "stan@dotson.info") 
+	definition (name: "AD2SmartThings v2.0.1", version: "2.0.1",author: "stan@dotson.info") 
     {
 
 		capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
@@ -352,12 +352,45 @@ def parse(String description)
         if (msg.contains("DISARMED"))
     	{
         	result << createEvent(name: "system", value: "disarmed", displayed: true, isStateChange: true, isPhysical: true)
-            result << createEvent(name: "zoneOne", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+            	result << createEvent(name: "zoneOne", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneTwo", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneThree", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneFour", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneFive", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneSix", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneSeven", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneEight", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneNine", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneEleven", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwelve", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirteen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneFourteen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneFifteen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneSixteen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneSeventeen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneEighteen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneNineteen", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwenty", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentyone", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentytwo", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentythree", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentyfour", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentyfive", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentysix", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentyseven", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentyeight", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneTwentynine", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirty", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtyone", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtytwo", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtythree", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtyfour", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtyfive", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtysix", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtyseven", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zone"Thirtyeight, value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtynine", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
     	}   
  		
         if (msg.contains("CHIME"))  {
