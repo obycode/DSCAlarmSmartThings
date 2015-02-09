@@ -1,7 +1,7 @@
-## AD2SmartThings
+## AD2SmartThings v2.0
 ### ===================
 ### Integrate your Honeywell or Ademco alarm panel into your SmartThings physical graph
-ADT / Honeywell / Ademco / Alarm / SmartThings
+ADT / Honeywell / Ademco / Vista / Alarm / SmartThings / Alarm Panel / Home Alarm
 
 Do you have a home alarm panel and never use it?  Do you hate the hassle of remember to arm and having to run around to disarm?  
 
@@ -10,10 +10,11 @@ This is a relatively simple integration project that effectively integrates your
 After installing this project, you can control your alarm panel automagically!!!!!
 * Have it arm automatically after everyone has left the house by integrating with your presence sensors!  And have it disarm when you arrive.
 * Have it turn on automatically when you go to bed and turn off automatically when you wake by integrating with your Goodnight! automation and your GoodMorning! automation
+* Control your alarm panel via a MiniMote or activate from other sensors or devices
 
 
-Date: 8/20/2014
-
+Date: Feb 8, 2015
+This is Version 2.0 release.  To use this release you have to install or update both the Device Type v2.0 and the Arduino Sketch 2.0.  This release is not backwards compatable with V1.X code.  
 
 ## High Level Project Steps
 
@@ -25,8 +26,9 @@ Date: 8/20/2014
 6. Add ArduinoMega/ThingShield to your SmartThings hub using your iPhone app
 7. Go to graph.api.smartthings.com
   1. On My Device Types, create a new device type and paste in the device type code.  Save & Publish
-8.  Go to My Devices, select the newly added Arduino and edit the Device Type and select the HomeAlarm device type (7.i.)
-9.  Test out system 
+8.  Go to My Devices, select the newly added Arduino and edit the Device Type and select the HomeAlarm device type (step 7.i.)
+9.  Configure preferences on your mobile device.
+9.  Thoroughly est out system!  No Warranty (see license terms).
 
 ## The Hardware List
 The AD2Pi was obtained from Alarm Decoder.  www.alarmdecoder.com
@@ -70,7 +72,7 @@ I simply strapped the Arduino onto a foam board and inserted it into my alarm pa
 
 An **Arduino Mega* was used as the controller and was stacked with the SmartThings ThingShield.  *Note, set the DIP switch on the ThingShield  to D2/D3 if not already*.
 
-Before stacking, bend the pin0 and pin1 of the ThingShield out to a 45 degree angle so they do not insert into the Arduino Mega.  See pictures.  
+Before stacking the ThingShield on top of the ArduinoMega, bend the pin0 and pin1 of the ThingShield out to a 45 degree angle so they do not insert into the Arduino Mega.  See pictures.  
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4343966/e3bd10b6-406c-11e4-9120-7113a8e746bd.jpg" width="200px"  />   
 
@@ -98,9 +100,9 @@ The code for this project is in a few files which are posted on github:
 
 https://github.com/d8adrvn/ad2smartthings.git
 
-### Arduino Code 
+### Arduino Sketch 
 
-To load the code onto the Arduino, you will need the Arduino developer environment:
+To load the sketch onto the Arduino, you will need the Arduino developer environment:
 
 http://arduino.cc/en/main/software
 
@@ -129,12 +131,14 @@ Its more than a good idea to put a piece of electrical tape over the USB port to
 
 The device type code allows you to control the ArduinoMega via the SmartThings physical graph.  The  controller device type code has the following features:
 
-The Main Tile gives the status of the system and allows you to switch on the alarm in "stay" mode.
+The Main Tile gives the status of the system and allows you to disarm the system (by pressing the tile).
 Inside the device type:
 
-There is a 2x2 StatusTile that is the same as the main tile
+StatusTile -  that is the same as the main tile
 There are tiles to switch on the alarm in Stay and in Away mode
 There is a tile to toggle the chime
+There is a tile to activate the PANIC alarm.  To prevent false alrams, you must press this tile 3X. After pressing once, the tile will remind you to press twice more.  After pressing twice, the tile will remind you to press once more.  After pressing a thrid time, the PANIC alarm will sound.  Note, for this to work, you must set the Preferences to indicate which Panic code has been configured for your alarm.  If in doubt, try "B".  And test the system!
+Preferences Tile
 And there are status tiles for up to 6 zones
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4344058/524cc110-4073-11e4-8fae-74a83419f47b.jpg" width="200px"  />
