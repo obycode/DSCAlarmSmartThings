@@ -138,6 +138,7 @@ Inside the device type:
 <img src="https://cloud.githubusercontent.com/assets/5625006/6100596/3478d29e-afd8-11e4-9dfe-2945dfd7754a.PNG" width="200px"  />
 
 * StatusTile -  Same as the main tile.  Shows status of system
+* Disarm - disarms the system.  In case you accidently press the Panic key once or twice, and do not wish to activate a panic alarm, Disarm will reset the panic sequence.
 * Stay - Activates the system in Stay node
 * Away - Activates the system in Away mode
 * Chime - toggles chime mode
@@ -146,7 +147,7 @@ Inside the device type:
 * Message Tile - displays all the messages sent from the AD2Pi
 
 * Preferences - This allows you to configure the device type for your alarm panel.  You must enter your 4 digit homeowners alarm access code.  For the PANIC tile to work, you must select one of the three choices for your Panic code. This code must be valid for your system.  If in doubt, try "B" and then test your system
-* 
+
 <img src="https://cloud.githubusercontent.com/assets/5625006/6100607/4f67cdee-afd8-11e4-88ff-6df233021bb9.PNG" width="200px"  />
 
 * Configure AD2Pi - this tile sends configuration commands to AD2Pi.  Enter the command in the Preferences section and then send the command to the AD2Pi by pressing this tile.  The main purpose is to set the AD2Pi with a valid address.  
