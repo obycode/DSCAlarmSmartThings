@@ -143,24 +143,21 @@ Inside the device type:
 * Chime - toggles chime mode
 * PANIC - a tile to activate the PANIC alarm.  To prevent false alrams, you must press this tile 3X. After pressing once, the tile will remind you to press twice more.  After pressing twice, the tile will remind you to press once more.  After pressing a thrid time, the PANIC alarm will sound.  Note, for this to work, you must set the Preferences to indicate which Panic code has been configured for your alarm.  If in doubt, try "B".  And test the system!
 *Preferences - allows you to set various preferences.  You must enter your homeowner security code and you must select one of three choices for the Panic code.  
+* Message Tile - displays all the messages sent from the AD2Pi
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/6100610/67d0130a-afd8-11e4-89e6-4f03e2801406.PNG" width="200px"  />
-
-
-* Configure AD2Pi - this tile sends configuration commands to AD2Pi.  Enter the command in the Preferences section and then send the command to the AD2Pi by pressing this tile.  The main purpose is to set the AD2Pi with a valid address.  
+* Preferences - This allows you to configure the device type for your alarm panel.  You must enter your 4 digit homeowners alarm access code.  For the PANIC tile to work, you must select one of the three choices for your Panic code. This code must be valid for your system.  If in doubt, try "B" and then test your system
 * 
 <img src="https://cloud.githubusercontent.com/assets/5625006/6100607/4f67cdee-afd8-11e4-88ff-6df233021bb9.PNG" width="200px"  />
+
+* Configure AD2Pi - this tile sends configuration commands to AD2Pi.  Enter the command in the Preferences section and then send the command to the AD2Pi by pressing this tile.  The main purpose is to set the AD2Pi with a valid address.  
+
+<img src="https://cloud.githubusercontent.com/assets/5625006/6100610/67d0130a-afd8-11e4-89e6-4f03e2801406.PNG" width="200px"  />
 
 
 * Zones - there are status tiles for up to 36 zones.  If you need fewer zones, you can simply trim the number of zones displayed by modifying the <details> command in the code.  Its that simple.   
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/6100601/47d9f9b2-afd8-11e4-8151-a38d3ad222e0.PNG" width="200px"  />
 
-
-
-* Message Tile - displays all the messages sent from the AD2Pi
-
-<img src="https://cloud.githubusercontent.com/assets/5625006/4344059/564c0a46-4073-11e4-8e26-062feba8c126.jpg" width="200px"  />
 
 To install the device type code: 
 
