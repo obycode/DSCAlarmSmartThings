@@ -132,22 +132,39 @@ Its more than a good idea to put a piece of electrical tape over the USB port to
 The device type code allows you to control the ArduinoMega via the SmartThings physical graph.  The  controller device type code has the following features:
 
 The Main Tile gives the status of the system and allows you to disarm the system (by pressing the tile).
+
 Inside the device type:
 
-StatusTile -  that is the same as the main tile
-There are tiles to switch on the alarm in Stay and in Away mode
-There is a tile to toggle the chime
-There is a tile to activate the PANIC alarm.  To prevent false alrams, you must press this tile 3X. After pressing once, the tile will remind you to press twice more.  After pressing twice, the tile will remind you to press once more.  After pressing a thrid time, the PANIC alarm will sound.  Note, for this to work, you must set the Preferences to indicate which Panic code has been configured for your alarm.  If in doubt, try "B".  And test the system!
-Preferences Tile
-And there are status tiles for up to 6 zones
+*StatusTile -  Same as the main tile.  Shows status of system
+*Stay - Activates the system in Stay node
+*Away - Activates the system in Away mode
+*Chime - toggles chime mode
+*PANIC - a tile to activate the PANIC alarm.  To prevent false alrams, you must press this tile 3X. After pressing once, the tile will remind you to press twice more.  After pressing twice, the tile will remind you to press once more.  After pressing a thrid time, the PANIC alarm will sound.  Note, for this to work, you must set the Preferences to indicate which Panic code has been configured for your alarm.  If in doubt, try "B".  And test the system!
+*Preferences - allows you to set various preferences.  You must enter your homeowner security code and you must select one of three choices for the Panic code.  
+*Configure AD2Pi - this tile sends configuration commands to AD2Pi.  Enter the command in the Preferences section and then send the command to the AD2Pi by pressing this tile.  The main purpose is to set the AD2Pi with a valid address.  
+*Zones - there are status tiles for up to 36 zones.  If you need fewer zones, you can simply trim the number of zones displayed by modifying the <details> command in the code.  Its that simple.   
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4344058/524cc110-4073-11e4-8fae-74a83419f47b.jpg" width="200px"  />
 
 
 
-A message tile displays all the messages sent from the AD2Pi
+*Message Tile - displays all the messages sent from the AD2Pi
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4344059/564c0a46-4073-11e4-8e26-062feba8c126.jpg" width="200px"  />
+
+
+To install the device type code: 
+1. Go to graph.api.smartthings.com   
+2. Select My Device Types tab
+3. Select the +NewSmartDevice button
+4. Choose "From Code" tab
+5. Paste the device type code from this repository
+6. Go to the line of code with the "details" arguments
+7. Edit the number of zones in the details argument list to match the number of zones in your system.
+8. Save and Publish (for me) the device type.  You have to Publish!
+9.  Go to My Devices tab 
+10. Select your Arduino and using the drop down, select your newly created AD2SmartThings device type (v2 or later).
+11. Go to your mobile device and the Arduino tile should now display as a Home Alarm tile.  Hint: on the iPhone, sometimes you have to kill the SmartThings app two times before a new device type update will display on the SmartThings iPhone app.
 
 ## Integration of Home Alarm Into Automated Actions:
 
@@ -169,5 +186,5 @@ Have fun integrating!
 
 * Timer library from Simon Monk
 * Thanks to authors: Vassilis Varveropoulos, Brice Dobry for the ArduinoMega ThingShield library and intial ideas
-* Lots of good ideas from SmartThings @craig whose repository can be found at https://gist.github.com/e5b30109fdaec805d474.git
-* Thanks to Sean from AlarmDecoder for jumping in to help out with configuring device address.
+* Lots of good ideas from SmartThings @craig 
+* Thanks to Sean Matthews from AlarmDecoder for jumping in to help out with configuring device address, setting up Panic codes, and other help.
