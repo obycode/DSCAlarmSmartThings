@@ -389,7 +389,7 @@ def parse(String description)
         	result << createEvent(name: "zoneThirtyfive", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneThirtysix", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneThirtyseven", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
-        	result << createEvent(name: "zone"Thirtyeight, value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+        	result << createEvent(name: "zoneThirtyeight", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
         	result << createEvent(name: "zoneThirtynine", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
     	}   
  		
