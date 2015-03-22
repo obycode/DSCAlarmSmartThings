@@ -72,11 +72,12 @@ I simply strapped the Arduino onto a foam board and inserted it into my alarm pa
 
 An **Arduino Mega* was used as the controller and was stacked with the SmartThings ThingShield.  
 
-*Set the DIP switch on the ThingShield  to D0/D1 if not already*.
+*Set the DIP switch on the ThingShield to D0/D1.*
 The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 0/1. Check that the DIP switch is set to D0/D1. 
 
+<img src="https://cloud.githubusercontent.com/assets/5625006/6772016/49b98c72-d0bf-11e4-83b4-b7227de7b36b.jpg" width="200px"  />   
 
-Before stacking the ThingShield on top of the ArduinoMega, bend the pin0 and pin1 of the ThingShield out to a 45 degree angle so they do not insert into the Arduino Mega.  See pictures.  
+Before stacking the ThingShield on top of the ArduinoMega, bend the pin0 and pin1 of the ThingShield out to a 45 degree angle so they do not insert into the Arduino Mega.   (Geek's Note: This prevents the ThingShield from recieving messages from Serial0 of the Mega which normally go out pin0 and pin1. Instead, we will redirect serial communication from Serial1 to the ThingShield using jumpers).  See pictures. 
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4343966/e3bd10b6-406c-11e4-9120-7113a8e746bd.jpg" width="200px"  />   
 
