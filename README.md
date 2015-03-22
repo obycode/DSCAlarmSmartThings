@@ -195,6 +195,14 @@ Have fun integrating!
 
 * The Arduino 9V power supply (transformer) can be purchased at Amazon by searching for "Arduino Power Supply".  CAUTION: There are 9V power supplies availble on Amazon that do not work for the Arduino (they are made for musical instrament controllers) and some that perform very poorly on Arduino.  Be sure to read the reviews!  
 
+* If you have hooked up everything "perfectly", and you still do not see any communication from the AD2Pi, recheck the following:
+*   Have you set the ThingShield DIP to D0/D1?
+*   Did you configure the AD2Pi with a valid address?  For a Vista SE series, set AD2Pi to ADRESS=31.  For Vista P series, set the address corresponding to the keypad address that you activated on your alarm keypad.  Use the mobile phone device Preferences to submit the address change information and press the <configure> tile to download the address change to the AD2Pi.  Be sure to press <configure>
+*   If you have a Vista P series, did you activate an extra keypad address for the AD2Pi to use
+*   The AD2Pi LED is blinking steadily.  If not, recheck the AD2Pi wiring diagram from alarmdecoder.com
+*   You hit PUBLISH (for me) after creating your device-type on graph.api.smartthings.com
+
+
 ##Credits
 
 * Timer library from Simon Monk
