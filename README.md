@@ -28,7 +28,7 @@ This is Version 2.0 release.  To use this release you have to install or update 
   1. On My Device Types, create a new device type and paste in the device type code.  Save & Publish
 8.  Go to My Devices, select the newly added Arduino and edit the Device Type and select the HomeAlarm device type (step 7.i.)
 9.  Configure preferences on your mobile device.
-9.  Thoroughly est out system!  No Warranty (see license terms).
+9.  Thoroughly test out system!  No Warranty (see license terms).
 
 ## The Hardware List
 The AD2Pi was obtained from Alarm Decoder.  www.alarmdecoder.com
@@ -179,6 +179,16 @@ To install the device type code:
 10.  Select your Arduino and using the drop down, select your newly created AD2SmartThings device type (v2 or later).
 11.  Go to your mobile device and the Arduino tile should now display as a Home Alarm tile.  Hint: on the iPhone, sometimes you have to kill the SmartThings app two times before a new device type update will display on the SmartThings iPhone app.
 
+## Configuring Your System To Work With Vista10SE or other SE-series
+The VistaSE series requires the AD2Pi to be configured with an ADDRESS=31.   To do this, go to the Preferences tile on your mobile device and in the Configuration box, enter "ADDRESS=31".  All caps, no spaces and no quotes.  After entering this in the Preferences, you must then press the Config AD2Pi tile to send down the configuration command to the AD2Pi.  You will see the Message tile indicate !Sending and then you should see a confirmation message of "ADDRESS=31".  You can double check your work by going back to the Preferences, erasing the command (recommended) and then pressing the ConfigAD2Pi tile once again.  The Message tile will report back the current address of the AD2Pi.  
+
+## Configuring Your System To Work With Vista 20P or other P-series
+The Vista20P will only commuicate to the AD2Pi if it has been properly configured with a unique address.  This requires two steps.  First, you need to activate an unused keypad address in your Vista20P and second, you need to configure the AD2Pi with that address.
+
+To configure your Vista20P, follow the instructions in the manual to activate an unused keypad address.  There is a helpful video at alarmdecoder.com  http://www.alarmdecoder.com/wiki/index.php/Panel_Configuration   You can also find a manual at  http://site.aesecurity.com/Manuals/v15pand20pprogrammingguide.pdf
+
+You will also may need to configure the AD2Pi.  The AD2Pi is pre-configured with ADDRESS=18.  If you were lucky enough to only have two keypads and activated the third keypad for the AD2Pi (*191 in the Honeywell programming mode), then you should be fine.  If you activated a different keypad, lets say keypad #4 (*192), then you need to configure the AD2Pi with the correct address.  For Keypad #4, you should configure with ADDRESS=19.  To do this, go to the Preferences tile on your mobile device and in the Configuration box, enter "ADDRESS=19".  All caps, no spaces and no quotes.  After entering this in the Preferences, you must then press the Config AD2Pi tile to send down the configuration command to the AD2Pi.  You will see the Message tile indicate !Sending and then you should see a confirmation message of "ADDRESS=19".  You can double check your work by going back to the Preferences, erasing the command (recommended) and then pressing the ConfigAD2Pi tile once again.  The Message tile will report back the current address of the AD2Pi.  
+
 ## Integration of Home Alarm Into Automated Actions:
 
 The device type also establishes a switch and lock capability.  You can integrate your alarm panel into SmartApps and into Actions using these capabilities.
@@ -201,6 +211,8 @@ Have fun integrating!
   *   If you have a Vista P series, did you activate an extra keypad address for the AD2Pi to use
   *   The AD2Pi LED is blinking steadily.  If not, recheck the AD2Pi wiring diagram from alarmdecoder.com
   *   You pressed PUBLISH (for me) after creating your device-type on graph.api.smartthings.com
+
+
 
 
 ##Credits
