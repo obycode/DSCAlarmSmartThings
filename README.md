@@ -119,7 +119,7 @@ Once the software is installed, the first thing to do is obtain the required lib
  
 Once you have the zip files downloaded you can import them within the Arduino IDE. Go to the Sketch:Import Library;Add Library drop down menu. Once you have added the libraries, they will show up under Sketch:Add Library:Contributed as "Timer" and "SmartThingsMega".  Be sure the Timer library is installed named as "Timer"
 
-You can connect the Arduino Uno to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer to tehe ArduinoMEGA
+You can connect the Arduino Uno to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer to the ArduinoMEGA.  Be sure to go to the tools menu, select <Board> and then select the ArduinoMega 2560 so that the code will compile correctly and not time out during transfer.  
 
 Pairing instructions for the Arduino to the SmartThings hub can be found at SmartThings.com and are copied here:
 
@@ -211,7 +211,7 @@ Have fun integrating!
   *   If you have a Vista P series, did you activate an extra keypad address for the AD2Pi to use
   *   The AD2Pi LED is blinking steadily.  If not, recheck the AD2Pi wiring diagram from alarmdecoder.com
   *   You pressed PUBLISH (for me) after creating your device-type on graph.api.smartthings.com
-
+* While compiling or transferring the code, you get the following error: 'Serial1' was not declared in this scope or  'Serial2' was not declared in this scope, then you likely do not have the correct board selected in the Arduino Development Environment.  You can also have the same issue if you see that during transfer, the transfer process times out without transfering the code.  Go to the <Tools> menu and select <Board> then select the Mega 2560.  This will allow the code to compile correctly.  
 
 
 
