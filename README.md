@@ -93,6 +93,22 @@ Note, the ThingShield pins are not labeled.  So you can identify the pins using 
 7. Connect the Arduino to USB power or to a 9V power supply using the appropriate ports.  
 8. When not using the USB power supply, place a piece of black electrical tape over the USB port to prevent accidental shorting
 
+### Wiring the AD2Pi to the Arduino/ThingShield
+
+Here are the pin connections to make between the Arduino/Thingshield and the AD2Pi along with a couple pics to get you oriented.  You can make these connections using an 8" male to male jumper wire.
+
+Pin Configuration for AD2Pi to Arduino Mega
+ *  Jumper   AD2PI   Mega
+ *   3.3V    1       3.3V
+ *    GND    6       GND
+ *    TX     8	     18
+ *    RX     10	     19
+
+
+<img src="https://cloud.githubusercontent.com/assets/5625006/7106093/2128c758-e0fc-11e4-9df5-b3331ec35e44.jpg" width="200px" 
+<img src="https://cloud.githubusercontent.com/assets/5625006/7106094/22b71a5c-e0fc-11e4-8112-eac274d88073.jpg" width="200px" 
+
+
 ### Wiring The AD2Pi to your Honeywell or Ademco alarm panel
 
 There is excellent documentation on the Alarm Decoder web site, including an instructional video.  The wiring is the same for the AD2Pi as the AD2USB.
