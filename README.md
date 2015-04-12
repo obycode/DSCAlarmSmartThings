@@ -81,11 +81,8 @@ Before stacking the ThingShield on top of the ArduinoMega, bend the pin0 and pin
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4343966/e3bd10b6-406c-11e4-9120-7113a8e746bd.jpg" width="200px"  />   
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/4343981/87f90e4a-406e-11e4-96f1-d8fed5d3be1d.jpg" width="200px"  />
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/4343985/9f6a7b0e-406e-11e4-8e9c-8be488631336.jpg" width="200px"  />
-
-<img src="https://cloud.githubusercontent.com/assets/5625006/4343982/91aef3a0-406e-11e4-8bc7-2fc97bf38a93.jpg" width="200px"  />
 
 
 Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above).
@@ -106,7 +103,9 @@ Pin Configuration for AD2Pi to Arduino Mega
 
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7106093/2128c758-e0fc-11e4-9df5-b3331ec35e44.jpg" width="200px" 
+/>   
 <img src="https://cloud.githubusercontent.com/assets/5625006/7106094/22b71a5c-e0fc-11e4-8112-eac274d88073.jpg" width="200px" 
+/>
 
 
 ### Wiring The AD2Pi to your Honeywell or Ademco alarm panel
