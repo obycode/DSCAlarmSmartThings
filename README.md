@@ -79,10 +79,12 @@ The shield has a DIP switch that allows it to either read serial commands via pi
 
 Before stacking the ThingShield on top of the ArduinoMega, bend the pin0 and pin1 of the ThingShield out to a 45 degree angle so they do not insert into the Arduino Mega.   (Geek's Note: This prevents the ThingShield from recieving messages from Serial0 of the Mega which normally go out pin0 and pin1. Instead, we will redirect serial communication from Serial1 to the ThingShield using jumpers).  See pictures. 
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/4343966/e3bd10b6-406c-11e4-9120-7113a8e746bd.jpg" width="200px"  />   
+<img src="https://cloud.githubusercontent.com/assets/5625006/7625658/257a4a98-f9c0-11e4-8ed1-6f4b26f2ec4c.jpg" width="200px"  />   
 
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/4343985/9f6a7b0e-406e-11e4-8e9c-8be488631336.jpg" width="200px"  />
+<img src="https://cloud.githubusercontent.com/assets/5625006/7625647/0692ae72-f9c0-11e4-8229-85119eb0e210.jpg" width="200px"  />
+
+<img src="https://cloud.githubusercontent.com/assets/5625006/7625652/11b4d050-f9c0-11e4-9cde-05c730a63ba5.jpg" width="200px"  />
 
 
 Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above).
