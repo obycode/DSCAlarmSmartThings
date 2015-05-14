@@ -104,7 +104,7 @@ Pin Configuration for AD2Pi to Arduino Mega
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7106093/2128c758-e0fc-11e4-9df5-b3331ec35e44.jpg" width="200px" 
 />   
-<img src="https://cloud.githubusercontent.com/assets/5625006/7106094/22b71a5c-e0fc-11e4-8112-eac274d88073.jpg" width="200px" 
+<img src="https://cloud.githubusercontent.com/assets/5625006/7625596/3fde766c-f9bf-11e4-8339-0ae9492c00f6.jpg" width="200px" 
 />
 
 
