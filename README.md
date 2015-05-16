@@ -21,8 +21,8 @@ This is Version 2.0 release.  To use this release you have to install or update 
 1. Order the hardware
 2. Add SmartThings hub to your home network, download app to your iPhone
 3. Obtain a Maker/Developer account for SmartThings (graph.api.smartthings.com)
-4. Assemble the Arduino Mega, ThingShield and AD2Pi
-5. Download the Arduino developer environment and import the AD2SmartThings sketch as well as the required libraries, including the SmartThingsMega and the Timer library.  
+4. Assemble the Arduino Mega, ThingShield and AD2Pi.  Power up.
+5. Download the Arduino developer environment and import the AD2SmartThings sketch as well as the required libraries, including the SmartThing (ST_Anything version) and the Timer library.  Load the sketch to the ArduinoMega.
 6. Add ArduinoMega/ThingShield to your SmartThings hub using your iPhone app
 7. Go to graph.api.smartthings.com
   1. On My Device Types, create a new device type and paste in the device type code.  Save & Publish
@@ -31,6 +31,7 @@ This is Version 2.0 release.  To use this release you have to install or update 
 9.  Thoroughly test out system!  No Warranty (see license terms).
 
 ## The Hardware List
+
 The AD2Pi was obtained from Alarm Decoder.  www.alarmdecoder.com
 All other items from this project were easily obtained from Amazon via Amazon Prime
 
@@ -39,6 +40,7 @@ All other items from this project were easily obtained from Amazon via Amazon Pr
 * Arduino SmartThings shield
 * Jumper wires
 * 9V power adapter
+
 
 ### An ArduinoMega, SmartThing ThingShield and AD2Pi
 
@@ -72,18 +74,16 @@ I simply strapped the Arduino onto a foam board and inserted it into my alarm pa
 
 An **Arduino Mega* was used as the controller and was stacked with the SmartThings ThingShield.  
 
-*Set the DIP switch on the ThingShield to D0/D1.*
-The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 0/1. Check that the DIP switch is set to D0/D1. 
+*Set the DIP switch on the ThingShield to D2/D3.*
+The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 2/3. Check that the DIP switch is set to D2/D3.  Note, this is typically the default position when ThingShields are manufactured. 
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/6772016/49b98c72-d0bf-11e4-83b4-b7227de7b36b.jpg" width="200px"  />   
 
-Before stacking the ThingShield on top of the ArduinoMega, bend the pin0 and pin1 of the ThingShield out to a 45 degree angle so they do not insert into the Arduino Mega.   (Geek's Note: This prevents the ThingShield from recieving messages from Serial0 of the Mega which normally go out pin0 and pin1. Instead, we will redirect serial communication from Serial1 to the ThingShield using jumpers).  See pictures. 
+Stack teh ThingShield on top of the ArduinoMega, matching the pins as you push the two boards together.   See pictures. 
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/4343966/e3bd10b6-406c-11e4-9120-7113a8e746bd.jpg" width="200px"  />   
+<img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jp" width="200px"  />   
 
-
-<img src="https://cloud.githubusercontent.com/assets/5625006/4343985/9f6a7b0e-406e-11e4-8e9c-8be488631336.jpg" width="200px"  />
-
+<img src="https://cloud.githubusercontent.com/assets/5625006/7666139/553dc478-fb9e-11e4-9235-14c4c6b5496f.jpg" width="200px"  />
 
 Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above).
 
