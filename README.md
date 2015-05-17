@@ -13,6 +13,9 @@ After installing this project, you can control your alarm panel automagically!!!
 * Control your alarm panel via a MiniMote or activate from other sensors or devices
 
 
+Date: May 17, 2015
+This is Version 3.0 release.  This release standardizes the hardware assembly of the AD2SmartThings device which should address the top two support issues for creating the system.  The release does not add any additional capabilities and uses the same device type.  If you already completed the project, I don't see any reason to update.  However, if you still want to update to update this release, you have to reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The SmartThings library from SmartThings and the library used in versions 1 & 2 are no longer compatible with the sketch.  A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for many enhancements to the SmartThings library, including full support for the Arduino Mega.   
+
 Date: Feb 8, 2015
 This is Version 2.0 release.  To use this release you have to install or update both the Device Type v2.0 and the Arduino Sketch 2.0.  This release is not backwards compatable with V1.X code.  
 
@@ -59,7 +62,7 @@ For the wiring, I used individual male to male jumper cables to wire the project
 
 
 ### Power Supplies
-For a power supply to power up the ArduinoMega I used a 9V power supply to run the Arduino+ThingShield.  This was  purchased at Amazon as well by searching for "Arduino Power Supply".  Right now, I am using the Super Power Supply® AC / DC Adapter Charger Cord Plug - 9V 650mA compatible with Arduino Freeduino Duemilanove Uno Mega Hobby Electronics, which was available by Amazon Prime.   CAUTION: There are 9V power supplies availble on Amazon that do not work for the Arduino (they are made for musical instrament controllers) and some that perform very poorly on Arduino.  Be sure to read the reviews!  
+To power the ArduinoMega I used a 9V power supply to run the Arduino+ThingShield.  This was  purchased at Amazon as well by searching for "Arduino Power Supply".  Right now, I am using the Super Power Supply® AC / DC Adapter Charger Cord Plug - 9V 650mA compatible with Arduino Freeduino Duemilanove Uno Mega Hobby Electronics, which was available by Amazon Prime.   CAUTION: There are 9V power supplies availble on Amazon that do not work for the Arduino (they are made for musical instrament controllers) and some that perform very poorly on Arduino.  Be sure to read the reviews on Amazon to find an Arduino compatable power supply!  
 
 ### Project Housing
 I simply strapped the Arduino onto a foam board and inserted it into my alarm panel box
@@ -77,10 +80,13 @@ An **Arduino Mega* was used as the controller and was stacked with the SmartThin
 *Set the DIP switch on the ThingShield to D2/D3.*
 The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 2/3. Check that the DIP switch is set to D2/D3.  Note, this is typically the default position when ThingShields are manufactured. 
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/6772016/49b98c72-d0bf-11e4-83b4-b7227de7b36b.jpg" width="200px"  />   
+<img src="https://cloud.githubusercontent.com/assets/5625006/7670559/50d02238-fc6f-11e4-8208-3dadb582eb67.jpg" width="200px"  />   
 
-Stack the ThingShield on top of the Arduino Mega, matching the pins as you push the two boards together.   
-See pictures: 
+Stack the ThingShield on top of the Arduino Mega, matching the pins as you push the two boards together.  All pins should be securely contacted.     
+
+Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the connections:
+#TODO
+
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jpg" width="400px"  />   
 
@@ -237,3 +243,4 @@ Have fun integrating!
 * Thanks to authors: Vassilis Varveropoulos, Brice Dobry for the ArduinoMega ThingShield library and intial ideas
 * Lots of good ideas from SmartThings @craig 
 * Thanks to Sean Matthews from AlarmDecoder for jumping in to help out with configuring device address, setting up Panic codes, and other help.
+* A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for many enhancements to the SmartThings library, including full support for the Arduino Mega. 
