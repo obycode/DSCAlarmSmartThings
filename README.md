@@ -85,9 +85,10 @@ The shield has a DIP switch that allows it to either read serial commands via pi
 Stack the ThingShield on top of the Arduino Mega, matching the pins as you push the two boards together.  All pins should be securely contacted.     
 
 Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the connections:
-  *Jumper Pin Pin
-  *RX     14  2
-  *TX     15  3
+
+  * Jumper   Pin   Pin
+  * RX       14      2
+  * TX       15      3
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jpg" width="400px"  />   
 
@@ -103,11 +104,12 @@ Note, the ThingShield pins are not labeled.  So you can identify the pins using 
 Here are the pin connections to make between the Arduino/Thingshield and the AD2Pi along with a couple pics to get you oriented.  You can make these connections using an 8" male to male jumper wire.
 
 Pin Configuration for AD2Pi to Arduino Mega
- *  Jumper   AD2PI   Mega
- *   3.3V    1       3.3V
- *    GND    6       GND
- *    TX     8	     18
- *    RX     10	     19
+
+ * Jumper   AD2PI   Mega
+ * 3.3V       1       3.3V
+ * GND        6       GND
+ * TX         8	      18
+ * RX         10	    19
 
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7106093/2128c758-e0fc-11e4-9df5-b3331ec35e44.jpg" width="200px" 
