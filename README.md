@@ -1,4 +1,4 @@
-## AD2SmartThings v2.0
+## AD2SmartThings v3.0
 ### ===================
 ### Integrate your Honeywell or Ademco alarm panel into your SmartThings physical graph
 ADT / Honeywell / Ademco / Vista / Alarm / SmartThings / Alarm Panel / Home Alarm
@@ -13,6 +13,9 @@ After installing this project, you can control your alarm panel automagically!!!
 * Control your alarm panel via a MiniMote or activate from other sensors or devices
 
 
+Date: May 17, 2015
+This is Version 3.0 release.  This release standardizes the hardware assembly of the AD2SmartThings device which addresses the top two support issues.  The release does not add any additional capabilities and uses the same device type.  If you already completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the library used in versions 1 & 2 are no longer compatible with the sketch.  A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. 
+
 Date: Feb 8, 2015
 This is Version 2.0 release.  To use this release you have to install or update both the Device Type v2.0 and the Arduino Sketch 2.0.  This release is not backwards compatable with V1.X code.  
 
@@ -21,8 +24,8 @@ This is Version 2.0 release.  To use this release you have to install or update 
 1. Order the hardware
 2. Add SmartThings hub to your home network, download app to your iPhone
 3. Obtain a Maker/Developer account for SmartThings (graph.api.smartthings.com)
-4. Assemble the Arduino Mega, ThingShield and AD2Pi
-5. Download the Arduino developer environment and import the AD2SmartThings sketch as well as the required libraries, including the SmartThingsMega and the Timer library.  
+4. Assemble the Arduino Mega, ThingShield and AD2Pi.  Power up.
+5. Download the Arduino developer environment and import the AD2SmartThings sketch as well as the required libraries, including the SmartThing (ST_Anything version) and the Timer library.  Load the sketch to the ArduinoMega.
 6. Add ArduinoMega/ThingShield to your SmartThings hub using your iPhone app
 7. Go to graph.api.smartthings.com
   1. On My Device Types, create a new device type and paste in the device type code.  Save & Publish
@@ -31,6 +34,7 @@ This is Version 2.0 release.  To use this release you have to install or update 
 9.  Thoroughly test out system!  No Warranty (see license terms).
 
 ## The Hardware List
+
 The AD2Pi was obtained from Alarm Decoder.  www.alarmdecoder.com
 All other items from this project were easily obtained from Amazon via Amazon Prime
 
@@ -39,6 +43,7 @@ All other items from this project were easily obtained from Amazon via Amazon Pr
 * Arduino SmartThings shield
 * Jumper wires
 * 9V power adapter
+
 
 ### An ArduinoMega, SmartThing ThingShield and AD2Pi
 
@@ -57,7 +62,7 @@ For the wiring, I used individual male to male jumper cables to wire the project
 
 
 ### Power Supplies
-For a power supply to power up the ArduinoMega I used a 9V power supply to run the Arduino+ThingShield.  This was  purchased at Amazon as well by searching for "Arduino Power Supply".  Right now, I am using the Super Power Supply® AC / DC Adapter Charger Cord Plug - 9V 650mA compatible with Arduino Freeduino Duemilanove Uno Mega Hobby Electronics, which was available by Amazon Prime.   CAUTION: There are 9V power supplies availble on Amazon that do not work for the Arduino (they are made for musical instrament controllers) and some that perform very poorly on Arduino.  Be sure to read the reviews!  
+To power the ArduinoMega I used a 9V power supply to run the Arduino+ThingShield.  This was  purchased at Amazon as well by searching for "Arduino Power Supply".  Right now, I am using the Super Power Supply® AC / DC Adapter Charger Cord Plug - 9V 650mA compatible with Arduino Freeduino Duemilanove Uno Mega Hobby Electronics, which was available by Amazon Prime.   CAUTION: There are 9V power supplies availble on Amazon that do not work for the Arduino (they are made for musical instrament controllers) and some that perform very poorly on Arduino.  Be sure to read the reviews on Amazon to find an Arduino compatable power supply!  
 
 ### Project Housing
 I simply strapped the Arduino onto a foam board and inserted it into my alarm panel box
@@ -72,22 +77,23 @@ I simply strapped the Arduino onto a foam board and inserted it into my alarm pa
 
 An **Arduino Mega* was used as the controller and was stacked with the SmartThings ThingShield.  
 
-*Set the DIP switch on the ThingShield to D0/D1.*
-The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 0/1. Check that the DIP switch is set to D0/D1. 
+*Set the DIP switch on the ThingShield to D2/D3.*
+The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 2/3. Check that the DIP switch is set to D2/D3.  Note, this is typically the default position when ThingShields are manufactured. 
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/6772016/49b98c72-d0bf-11e4-83b4-b7227de7b36b.jpg" width="200px"  />   
+<img src="https://cloud.githubusercontent.com/assets/5625006/7670559/50d02238-fc6f-11e4-8208-3dadb582eb67.jpg" width="200px"  />   
 
-Before stacking the ThingShield on top of the ArduinoMega, bend the pin0 and pin1 of the ThingShield out to a 45 degree angle so they do not insert into the Arduino Mega.   (Geek's Note: This prevents the ThingShield from recieving messages from Serial0 of the Mega which normally go out pin0 and pin1. Instead, we will redirect serial communication from Serial1 to the ThingShield using jumpers).  See pictures. 
+Stack the ThingShield on top of the Arduino Mega, matching the pins as you push the two boards together.  All pins should be securely contacted.     
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/7625658/257a4a98-f9c0-11e4-8ed1-6f4b26f2ec4c.jpg" width="200px"  />   
+Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the connections:
+  *Jumper Pin Pin
+  *RX     14  2
+  *TX     15  3
 
+<img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jpg" width="400px"  />   
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/7625647/0692ae72-f9c0-11e4-8229-85119eb0e210.jpg" width="200px"  />
+<img src="https://cloud.githubusercontent.com/assets/5625006/7666139/553dc478-fb9e-11e4-9235-14c4c6b5496f.jpg" width="400px"  />
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/7625652/11b4d050-f9c0-11e4-9cde-05c730a63ba5.jpg" width="200px"  />
-
-
-Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above).
+Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above) or by study the photos of my project (above).
 
 7. Connect the Arduino to USB power or to a 9V power supply using the appropriate ports.  
 8. When not using the USB power supply, place a piece of black electrical tape over the USB port to prevent accidental shorting
@@ -106,13 +112,13 @@ Pin Configuration for AD2Pi to Arduino Mega
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7106093/2128c758-e0fc-11e4-9df5-b3331ec35e44.jpg" width="200px" 
 />   
-<img src="https://cloud.githubusercontent.com/assets/5625006/7625596/3fde766c-f9bf-11e4-8339-0ae9492c00f6.jpg" width="200px" 
+<img src="https://cloud.githubusercontent.com/assets/5625006/7106094/22b71a5c-e0fc-11e4-8112-eac274d88073.jpg" width="200px" 
 />
 
 
 ### Wiring The AD2Pi to your Honeywell or Ademco alarm panel
 
-There is excellent documentation on the Alarm Decoder web site, including an instructional video.  The wiring is the same for the AD2Pi as the AD2USB.
+There is excellent documentation on the Alarm Decoder web site, including an instructional video.  Look for instructions on how to wire the AD2USB which are the same instructions for the AD2Pi used in this project.  Here is the URL:
 
 http://www.alarmdecoder.com/wiki/index.php/Panel_Configuration
 
@@ -131,12 +137,12 @@ http://arduino.cc/en/main/software
 Once the software is installed, the first thing to do is obtain the required libraries.  
 
 * Timer library was created by Simon Monk as modified by JChristensen.  A copy is included in this repository/release for your convenience.
-* SmartThings Mega library contained in this repository/release
+* A copy of the SmartThings library contained in this repository/release.  This is the ST_Anything version of the SmartThings library.  The libraries from SmartThings and the SmartThingsMega libraries do not work.
 * SoftwareSerial library was default library provided with Arduino IDE
  
-Once you have the zip files downloaded you can import them within the Arduino IDE. Go to the Sketch:Import Library;Add Library drop down menu. Once you have added the libraries, they will show up under Sketch:Add Library:Contributed as "Timer" and "SmartThingsMega".  Be sure the Timer library is installed named as "Timer"
+Once you have the zip files downloaded you can import them within the Arduino IDE. Go to the Sketch:Import Library;Add Library drop down menu. Once you have added the libraries, they will show up under Sketch:Add Library:Contributed as "Timer" and "SmartThings".  Be sure the Timer library is installed and named: "Timer"
 
-You can connect the Arduino Uno to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer to the ArduinoMEGA.  Be sure to go to the tools menu, select <Board> and then select the ArduinoMega 2560 so that the code will compile correctly and not time out during transfer.  
+You can connect the Arduino Mega to your computer via an USB cable, create a new sketch, paste the code from github into the Arduino IDE and then transfer to the ArduinoMEGA.  Be sure to go to the tools menu, select <Board> and then select the ArduinoMega 2560 so that the code will compile correctly and not time out during transfer.  
 
 Pairing instructions for the Arduino to the SmartThings hub can be found at SmartThings.com and are copied here:
 
@@ -238,3 +244,4 @@ Have fun integrating!
 * Thanks to authors: Vassilis Varveropoulos, Brice Dobry for the ArduinoMega ThingShield library and intial ideas
 * Lots of good ideas from SmartThings @craig 
 * Thanks to Sean Matthews from AlarmDecoder for jumping in to help out with configuring device address, setting up Panic codes, and other help.
+* A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for many enhancements to the SmartThings library, including full support for the Arduino Mega. 
