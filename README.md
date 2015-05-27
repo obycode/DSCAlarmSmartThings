@@ -1,24 +1,21 @@
-## AD2SmartThings v3.0
+## AD2SmartThings v2.1
 ### ===================
 ### Integrate your Honeywell or Ademco alarm panel into your SmartThings physical graph
 ADT / Honeywell / Ademco / Vista / Alarm / SmartThings / Alarm Panel / Home Alarm
 
-Do you have a home alarm panel and want to integrate with SmartThings?  Do you hate the hassle of remember to arm and having to rush to disarm?  Do you want to install another keypad and don't want to deal with your alarm company?  Do you have an alarm panel and never use it?
+Do want to integrate your home alarm panel with SmartThings?  Do you hate the hassle arming your panle and having to rush to disarm?  Do you want to install another keypad and don't want to deal with your alarm company?  Do you have an alarm panel and never use it?
 
 This is a relatively simple integration project that effectively integrates your Honeywell or Ademco alarm panel with SmartThings.  These panels are typically installed by ADT or other alarm companies.  You can choose to continue or not with your ADT  monitoring service.  This project works either way.  
 
 After installing this project, control of your alarm panel becomes intuitive and automagic!
-* Have it arm automatically after everyone has left the house by integrating with your presence sensors!  And have it disarm when you arrive.
-* Use automation to have your alarm automatically turn on when you go to bed and turn off when you wake up 
-* Control your alarm panel via a MiniMote or activate from other sensors or devices
-* Use your phone to send a panic alarm when something is amiss
+* Automatically arm your panel after everyone has left the house, and have it disarm when you arrive.
+* Use automation to turn on your alarm when you go to bed and turn off when you wake up 
+* Control your alarm panel via your smartphone or a MiniMote or activate from other sensors or devices
+* Use your smartphone or Minimote to send a panic alarm when there is danger.
 
 
 Date: May 17, 2015
-This is Version 3.0 release.  This release standardizes the hardware assembly of the AD2SmartThings device which addresses the top two support issues.  The release does not add any additional capabilities to Version 2.0 and uses the same Device Type.  If you already updated to Version 2.0 or recently completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the ArduinoMega library used in versions 1 & 2 are not compatible with this Version 3.0 sketch. You must use the ST_Anything SmartThings library. A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. 
-
-Date: Feb 8, 2015
-This is Version 2.0 release.  To use this release you have to install or update both the Device Type v2.0 and the Arduino Sketch 2.0.  This release is not backwards compatable with the Version 1.X device type.  
+This is Version 2.1 release.  This release standardizes the hardware assembly of the AD2SmartThings device, which addresses the top two support issues.  The release includes a new Version 2.1 of the Arduino sketch and a new README with updated project instructions.  The release does not add any additional capabilities to Version 2.0 and uses the same Device Type.  If you already updated to Version 2.0 or recently completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the ArduinoMega library are not compatable with this Version 2.1 sketch. You must use the ST_Anything SmartThings library. A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. This release is not backwards compatable with the Version 1.X device type.  
 
 ## High Level Project Steps
 
@@ -32,7 +29,8 @@ This is Version 2.0 release.  To use this release you have to install or update 
   1. On My Device Types, create a new device type and paste in the device type code.  Save & Publish
 8.  Go to My Devices, select the newly added Arduino and edit the Device Type and select the HomeAlarm device type (step 7.i.)
 9.  Configure preferences on your mobile device.
-9.  Thoroughly test out system!  No Warranty (see license terms).
+10.  Connect your project to your alarm panel.
+11.  Thoroughly test out system!  No Warranty (see license terms).
 
 ## The Hardware List
 
@@ -68,11 +66,7 @@ To power the ArduinoMega I used a 9V power supply to run the Arduino+ThingShield
 ### Project Housing
 I simply strapped the Arduino onto a foam board and inserted it into my alarm panel box
 
-
-### Wiring the Project
-
-* Wiring diagrams are included in the header of the Arduino sketch.
-
+## Constructing Your Project
 
 ### Wiring The Arduino Controller and Configuring The ThingShield
 
@@ -97,9 +91,6 @@ Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the 
 
 Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above) or by study the photos of my project (above).
 
-7. Connect the Arduino to USB power or to a 9V power supply using the appropriate ports.  
-8. When not using the USB power supply, place a piece of black electrical tape over the USB port to prevent accidental shorting
-
 ### Wiring the AD2Pi to the Arduino/ThingShield
 
 Here are the pin connections to make between the Arduino/Thingshield and the AD2Pi along with a couple pics to get you oriented.  You can make these connections using an 8" male to male jumper wire.
@@ -117,13 +108,6 @@ Pin Configuration for AD2Pi to Arduino Mega
 />   
 <img src="https://cloud.githubusercontent.com/assets/5625006/7106094/22b71a5c-e0fc-11e4-8112-eac274d88073.jpg" width="200px" 
 />
-
-
-### Wiring The AD2Pi to your Honeywell or Ademco alarm panel
-
-There is excellent documentation on the Alarm Decoder web site, including an instructional video.  Look for instructions on how to wire the AD2USB which are the same instructions for the AD2Pi used in this project.  Here is the URL:
-
-http://www.alarmdecoder.com/wiki/index.php/Panel_Configuration
 
 ## The Software
 
@@ -205,10 +189,18 @@ To install the device type code:
 10.  Select your Arduino and using the drop down, select your newly created AD2SmartThings device type (v2 or later).
 11.  Go to your mobile device and the Arduino tile should now display as a Home Alarm tile.  Hint: on the iPhone, sometimes you have to kill the SmartThings app two times before a new device type update will display on the SmartThings iPhone app.
 
-## Configuring Your System To Work With Vista10SE or other SE-series
+## Connect Your Project To Your Alarm Panel
+
+### Wiring The AD2Pi to your Honeywell or Ademco alarm panel
+
+There is excellent documentation on the Alarm Decoder web site, including an instructional video.  Look for instructions on how to wire the AD2USB which are the same instructions for the AD2Pi used in this project.  Here is the URL:
+
+http://www.alarmdecoder.com/wiki/index.php/Panel_Configuration
+
+### Configuring Your System To Work With Vista10SE or other SE-series
 The VistaSE series requires the AD2Pi to be configured with an ADDRESS=31.   To do this, go to the Preferences tile on your mobile device and in the Configuration box, enter "ADDRESS=31".  All caps, no spaces and no quotes.  After entering this in the Preferences, you must then press the Config AD2Pi tile to send down the configuration command to the AD2Pi.  You will see the Message tile indicate !Sending and then you should see a confirmation message of "ADDRESS=31".  You can double check your work by going back to the Preferences, erasing the command (recommended) and then pressing the ConfigAD2Pi tile once again.  The Message tile will report back the current address of the AD2Pi.  
 
-## Configuring Your System To Work With Vista 20P or other P-series
+### Configuring Your System To Work With Vista 20P or other P-series
 The Vista20P will only commuicate to the AD2Pi if it has been properly configured with a unique address.  This requires two steps.  First, you need to activate an unused keypad address in your Vista20P and second, you need to configure the AD2Pi with that address.
 
 To configure your Vista20P, follow the instructions in the manual to activate an unused keypad address.  There is a helpful video at alarmdecoder.com  http://www.alarmdecoder.com/wiki/index.php/Panel_Configuration   You can also find a manual at  http://site.aesecurity.com/Manuals/v15pand20pprogrammingguide.pdf
