@@ -3,21 +3,22 @@
 ### Integrate your Honeywell or Ademco alarm panel into your SmartThings physical graph
 ADT / Honeywell / Ademco / Vista / Alarm / SmartThings / Alarm Panel / Home Alarm
 
-Do you have a home alarm panel and never use it?  Do you hate the hassle of remember to arm and having to run around to disarm?  
+Do you have a home alarm panel and want to integrate with SmartThings?  Do you hate the hassle of remember to arm and having to rush to disarm?  Do you want to install another keypad and don't want to deal with your alarm company?  Do you have an alarm panel and never use it?
 
 This is a relatively simple integration project that effectively integrates your Honeywell or Ademco alarm panel with SmartThings.  These panels are typically installed by ADT or other alarm companies.  You can choose to continue or not with your ADT  monitoring service.  This project works either way.  
 
-After installing this project, you can control your alarm panel automagically!!!!!
+After installing this project, control of your alarm panel becomes intuitive and automagic!
 * Have it arm automatically after everyone has left the house by integrating with your presence sensors!  And have it disarm when you arrive.
-* Have it turn on automatically when you go to bed and turn off automatically when you wake by integrating with your Goodnight! automation and your GoodMorning! automation
+* Use automation to have your alarm automatically turn on when you go to bed and turn off when you wake up 
 * Control your alarm panel via a MiniMote or activate from other sensors or devices
+* Use your phone to send a panic alarm when something is amiss
 
 
 Date: May 17, 2015
-This is Version 3.0 release.  This release standardizes the hardware assembly of the AD2SmartThings device which addresses the top two support issues.  The release does not add any additional capabilities and uses the same device type.  If you already completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the library used in versions 1 & 2 are no longer compatible with the sketch.  A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. 
+This is Version 3.0 release.  This release standardizes the hardware assembly of the AD2SmartThings device which addresses the top two support issues.  The release does not add any additional capabilities to Version 2.0 and uses the same Device Type.  If you already updated to Version 2.0 or recently completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the ArduinoMega library used in versions 1 & 2 are not compatible with this Version 3.0 sketch. You must use the ST_Anything SmartThings library. A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. 
 
 Date: Feb 8, 2015
-This is Version 2.0 release.  To use this release you have to install or update both the Device Type v2.0 and the Arduino Sketch 2.0.  This release is not backwards compatable with V1.X code.  
+This is Version 2.0 release.  To use this release you have to install or update both the Device Type v2.0 and the Arduino Sketch 2.0.  This release is not backwards compatable with the Version 1.X device type.  
 
 ## High Level Project Steps
 
@@ -25,7 +26,7 @@ This is Version 2.0 release.  To use this release you have to install or update 
 2. Add SmartThings hub to your home network, download app to your iPhone
 3. Obtain a Maker/Developer account for SmartThings (graph.api.smartthings.com)
 4. Assemble the Arduino Mega, ThingShield and AD2Pi.  Power up.
-5. Download the Arduino developer environment and import the AD2SmartThings sketch as well as the required libraries, including the SmartThing (ST_Anything version) and the Timer library.  Load the sketch to the ArduinoMega.
+5. Download the Arduino developer environment and import the AD2SmartThings sketch as well as the required libraries, including the SmartThing (ST_Anything version) and the Timer library.  Transfer the sketch to the ArduinoMega over USB.
 6. Add ArduinoMega/ThingShield to your SmartThings hub using your iPhone app
 7. Go to graph.api.smartthings.com
   1. On My Device Types, create a new device type and paste in the device type code.  Save & Publish
@@ -78,7 +79,7 @@ I simply strapped the Arduino onto a foam board and inserted it into my alarm pa
 An **Arduino Mega* was used as the controller and was stacked with the SmartThings ThingShield.  
 
 *Set the DIP switch on the ThingShield to D2/D3.*
-The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 2/3. Check that the DIP switch is set to D2/D3.  Note, this is typically the default position when ThingShields are manufactured. 
+The shield has a DIP switch that allows it to either read serial commands via pins 0/1 or pins 2/3. For this project, the ThingShield is reading the Serial commands from the ArduinoMega through the ThingShield pins 2/3. Check that the DIP switch is set to D2/D3.  Note, this is typically the default position when ThingShields are shipped. 
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7670559/50d02238-fc6f-11e4-8208-3dadb582eb67.jpg" width="200px"  />   
 
@@ -126,7 +127,7 @@ http://www.alarmdecoder.com/wiki/index.php/Panel_Configuration
 
 ## The Software
 
-The code for this project is in a few files which are posted on github:
+The code for this project can be found posted on github:
 
 https://github.com/d8adrvn/ad2smartthings.git
 
