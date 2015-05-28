@@ -81,10 +81,10 @@ Stack the ThingShield on top of the Arduino Mega, matching the pins as you push 
 
 Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the connections:
 
-| Jumper | Pin | Pin |
-|________|_____|_____|
-| RX     | 14  | 2   |
-| TX     | 15  | 3   |
+| Jumper     | Pin     | Pin     |
+|:--------:|:------:|:-----:|
+| RX         | 14      | 2       |
+| TX         | 15      | 3       |
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jpg" width="400px"  />   
 
@@ -102,7 +102,7 @@ Here are the pin connections to make between the Arduino/Thingshield and the AD2
 Pin Configuration for AD2Pi to Arduino Mega
 
 |Jumper  | AD2PI  | Mega   |
-|________|________|________|
+|:--------:|:--------:|:--------:|
 | 3.3V   | 1      | 3.3V   |
 | GND    | 6      | GND    |
 | X      | 8	    | 18     |
