@@ -14,8 +14,9 @@ After installing this project, control of your alarm panel becomes intuitive and
 * Use your smartphone or Minimote to send a panic alarm when there is danger.
 
 
-Date: May 17, 2015
-This is Version 2.1 release.  This release standardizes the hardware assembly of the AD2SmartThings device, which addresses the top two support issues.  The release includes a new Version 2.1 of the Arduino sketch and a new README with updated project instructions.  The release does not add any additional capabilities to Version 2.0 and uses the same Device Type.  If you already updated to Version 2.0 or recently completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the ArduinoMega library are not compatable with this Version 2.1 sketch. You must use the ST_Anything SmartThings library. A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. This release is not backwards compatable with the Version 1.X device type.  
+
+***Release Note:***
+*This release standardizes the hardware assembly of the AD2SmartThings device, which addresses the top two support issues.  The release includes a new Version 2.1 of the Arduino sketch and a new README with updated project instructions.  The release does not add any additional capabilities to Version 2.0 and uses the same Device Type.  If you already updated to Version 2.0 or recently completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the ArduinoMega library are not compatable with this Version 2.1 sketch. You must use the ST_Anything SmartThings library. A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. This release is not backwards compatable with the Version 1.X device type.*
 
 ## High Level Project Steps
 
