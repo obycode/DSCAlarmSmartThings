@@ -53,7 +53,7 @@ All other items from this project were easily obtained from Amazon via Amazon Pr
 <img src="https://cloud.githubusercontent.com/assets/5625006/4344057/36bc5f3c-4073-11e4-8ef3-446b950dc4ab.jpg" width="200px"  />
 
 
-### Wiring
+### Jumpers
 
 For the wiring, I used individual male to male jumper cables to wire the project (see below).  I found these at Amazon such as **Male to Male Solderless Flexible Breadboard Jumper Cable Wires 65Pcs for Arduino by Sunkee**.
 
@@ -81,13 +81,16 @@ Stack the ThingShield on top of the Arduino Mega, matching the pins as you push 
 
 Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the connections:
 
-  * Jumper   Pin   Pin
-  * RX       14      2
-  * TX       15      3
+ | Jumper | Pin | Pin |
+ | RX | 14 | 2 |
+ | TX | 15 | 3 |
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jpg" width="400px"  />   
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7666139/553dc478-fb9e-11e4-9235-14c4c6b5496f.jpg" width="400px"  />
+
+<img src="https://cloud.githubusercontent.com/assets/5625006/7851848/2d6b0458-04bb-11e5-9353-a7615897922b.jpg" width="400px"  />
+
 
 Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above) or by study the photos of my project (above).
 
@@ -97,11 +100,12 @@ Here are the pin connections to make between the Arduino/Thingshield and the AD2
 
 Pin Configuration for AD2Pi to Arduino Mega
 
- * Jumper   AD2PI   Mega
- * 3.3V       1       3.3V
- * GND        6       GND
- * TX         8	      18
- * RX         10	    19
+|Jumper | AD2PI | Mega |
+|________|________|________|
+| 3.3V | 1 | 3.3V |
+| GND | 6 | GND |
+| X | 8	| 18 |
+ | RX | 10 | 19 |
 
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7106093/2128c758-e0fc-11e4-9df5-b3331ec35e44.jpg" width="200px" 
