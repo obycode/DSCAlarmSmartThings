@@ -1,6 +1,6 @@
  
 /** 
- * AD2SmartThings v2.0
+ * AD2SmartThings v3.0.0
  * Couple your Ademco/Honeywell Alarm to your SmartThings Graph using an AD2PI, an Arduino and a ThingShield
  * The Arduino passes all your alarm messages to your SmartThings Graph where they can be processed by the Device Type
  * Use the Device Type to control your alarm or use SmartApps to integrate with other events in your home graph
@@ -11,8 +11,9 @@
  * Timer library was created by Simon Monk as modified by JChristensen  https://github.com/JChristensen/Timer.  Note: if you
  * download the library from the source, you must rename the zip file to "Timer" before importing into the Arduino IDE.
  * 
- * Arduino Mega Library for SmartThings SmartShield can be found at:
- * https://github.com/vassilisv/DSCAlarmSmartThings/tree/master/Arduino/libraries/SmartThingsMega
+ * An enhanced SmartThings Library was created by  Dan G Ogorchock & Daniel J Ogorchock and their version is required for this implementation.
+ * Their enhanced library can found at:
+ * https://github.com/DanielOgorchock/ST_Anything/tree/master/Arduino/libraries/SmartThings
  *
  * SoftwareSerial library was default library provided with Arduino IDE
  *
@@ -30,23 +31,28 @@
  * Pin Configuration for Arduino Mega to ThingSheild
  * Use standard jumper wires to connect:
  *  Jumper      Mega  ThingShield
- *    RX        17        0
- *    TX        16        1
+ * TX        14        2   
+ * RX        15        3
+ *    
  *
  *
  * Credit: thanks to github contributor vassilisv for the intial idea and to AlarmDecoder.com for suggesting to use
  * serial out feature of the AD2Pi to connect to the Arduino card.  This project also benefitted imenseley from code 
  * shared by SmartThings contributor  @craig
  * 
+ * Thanks to Dan G Ogorchock & Daniel J Ogorchock for the updated SmartThings library.  This library is required for the ThingShield
+ * to use the hardware serial port on the Mega and for general performance enhancements.
  */
 
-#include <SmartThingsMega.h> //special library for Arduino Mega card
+#include <SoftwareSerial.h>  
+#include <SmartThings.h>  //be sure you are using the library from ST_ANYTHING which has support for hardware serial on the Arduino Mega
 #include <Timer.h>
+#define PIN_LED         13
+
 
 #define BUFFER_SIZE 300 // max message length from ADT
- 
-SmartThingsCallout_t messageCallout;    // call out function forward decalaration
-SmartThingsMega smartthing(&Serial2, messageCallout);  // constructor
+
+SmartThings smartthing(HW_SERIAL3, messageCallout);  //constructor for hardware serial port with ST_Anything Library
 
 // set global variables
 char buffer[BUFFER_SIZE];  //stores characters in AD2Pi to build up a message
@@ -197,4 +203,5 @@ void sendUpdate()
 {
   previousStr="";
 }
+
 
