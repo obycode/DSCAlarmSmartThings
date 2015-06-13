@@ -31,9 +31,9 @@ preferences {
     // To prevent excessive use, the configCommand value can be reset to null after sending to device
     // pressing the "Config" tile and sending null will harmlessly request the alarm panel to report out its Configurtion into the message tile.
     
-    input("configCommand", "text", title: "AD2Pi Configuration Command", description: "for example ADDRESS=31", defaultValue: '', required: false, displayDuringSetup: true)
-	input("securityCode", "number", title: "Enter your 4 digit homeowner security code", description: "enter 4 digit code", defaultValue:"", required: true, displayDuringSetup: true)
-    input("panicKey","enum", title: "Select Panic Key Configured By Your Installer", description: "(A:1&*) or (B:*&#) or (C:3&#)", options: ["A","B","C"], required: true, displayDuringSetup: true)
+    	input("configCommand", "text", title: "AD2Pi Configuration Command", description: "for example ADDRESS=31", defaultValue: '', required: false, displayDuringSetup: true)
+	input(name: "securityCode", type: "text", title: "Enter your 4 digit homeowner security code", description: "enter 4 digit code", defaultValue:"", required: true, displayDuringSetup: true)
+    	input("panicKey","enum", title: "Select Panic Key Configured By Your Installer", description: "(A:1&*) or (B:*&#) or (C:3&#)", options: ["A","B","C"], required: true, displayDuringSetup: true)
 }
 
 
