@@ -36,13 +36,14 @@ After installing this project, control of your alarm panel becomes intuitive and
 ## The Hardware List
 
 The AD2Pi was obtained from Alarm Decoder.  www.alarmdecoder.com
+The SmartThings ThingShield was purchased directly from SmartThings
 All other items from this project were easily obtained from Amazon via Amazon Prime
 
 * AD2Pi
 * Arduino MEGA
-* Arduino SmartThings shield
+* SmartThings ThingShield for Arduino
 * Jumper wires
-* 9V power adapter
+* 9V power adapter (be sure the reviews indicate the power supply is compatable with Arduino)
 
 
 ### An ArduinoMega, SmartThing ThingShield and AD2Pi
