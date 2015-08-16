@@ -53,11 +53,11 @@ metadata {
       state "arming", label: 'Arming', action: "disarm", icon: "st.Home.home2", backgroundColor: "#B8B8B8"
       state "alarm", label: 'Alarm', action: "clear", icon: "st.Home.home2", backgroundColor: "#ff0000"
     }
-    standardTile("away", "device.awaySwitch", width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
+    standardTile("away", "device.switchAway", width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
       state "on", label: "Away", action: "armAway", icon: "st.Home.home3", backgroundColor: "#add8e6"
       state "off", label: "Away", icon: "st.Home.home3", backgroundColor: "#ffffff"
     }
-    standardTile("stay", "device.switch", width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
+    standardTile("stay", "device.switchStay", width: 1, height: 1, canChangeIcon: false, canChangeBackground: false) {
       state "on", label: "Stay", action: "armStay", icon: "st.Home.home4", backgroundColor: "#0000ff"
       state "off", label: "Stay", icon: "st.Home.home4", backgroundColor: "#ffffff"
     }
@@ -83,70 +83,74 @@ def parse(String description) {
   log.debug description
   def msg = zigbee.parse(description)?.text
   log.debug "Received ${msg}"
-  def result
+  def result = []
   if (!msg || msg == "ping") {
-    result = createEvent(name: null, value: msg)
+    result += createEvent(name: null, value: msg)
   } else if ( msg.length() >= 4 ) {
     if ( msg.substring(0, 2) == "RD" ) {
       if (msg[3] == "0") {
-        result = createEvent(name: "alarmStatus", value: "notready")
+        result += createEvent(name: "alarmStatus", value: "notready")
         // When status is "Not Ready" we cannot arm
-        sendEvent(name: "switchAway", value: "off")
-        sendEvent(name: "switchStay", value: "off")
+        result += createEvent(name: "switchAway", value: "off")
+        result += createEvent(name: "switchStay", value: "off")
       }
       else {
-        result = createEvent(name: "alarmStatus", value: "ready")
+        result += createEvent(name: "alarmStatus", value: "ready")
         // When status is "Ready" we can arm
-        sendEvent(name: "switchAway", value: "on")
-        sendEvent(name: "switchStay", value: "on")
-        sendEvent(name: "switch", value: "off")
-        sendEvent(name: "panic", value: "off")
+        result += createEvent(name: "switchAway", value: "on")
+        result += createEvent(name: "switchStay", value: "on")
+        result += createEvent(name: "switch", value: "off")
+        result += createEvent(name: "panic", value: "off")
       }
     // Process arm update
     } else if ( msg.substring(0, 2) == "AR" ) {
       if (msg[3] == "0") {
-        result = createEvent(name: "alarmStatus", value: "disarmed")
-        sendEvent(name: "switch", value: "off")
+        result += createEvent(name: "alarmStatus", value: "disarmed")
+        result += createEvent(name: "switch", value: "off")
       }
       else if (msg[3] == "1") {
         if (msg[4] == "0" | msg[4] == "2") {
-          result = createEvent(name: "alarmStatus", value: "away")
-          sendEvent(name: "switch", value: "on")
+          result += createEvent(name: "alarmStatus", value: "away")
+          result += createEvent(name: "switch", value: "on")
         }
         else if (msg[4] == "1" | msg[4] == "3") {
-          result = createEvent(name: "alarmStatus", value: "stay")
-          sendEvent(name: "switch", value: "on")
+          result += createEvent(name: "alarmStatus", value: "stay")
+          result += createEvent(name: "switch", value: "on")
         }
       }
       else if (msg[3] == "2") {
-        result = createEvent(name: "alarmStatus", value: "arming")
-        sendEvent(name: "switch", value: "on")
+        result += createEvent(name: "alarmStatus", value: "arming")
+        result += createEvent(name: "switch", value: "on")
       }
     // Process alarm update
     } else if ( msg.substring(0, 2) == "AL" ) {
       if (msg[3] == "1") {
-        result = createEvent(name: "alarmStatus", value: "alarm")
+        result += createEvent(name: "alarmStatus", value: "alarm")
       }
       // Process chime update
     } else if ( msg.substring(0, 2) == "CH" ) {
       if (msg[3] == "1")
-        result = createEvent(name: "chime", value: "chimeOn")
+        result += createEvent(name: "chime", value: "chimeOn")
       else
-        result = createEvent(name: "chime", value: "chimeOff")
+        result += createEvent(name: "chime", value: "chimeOff")
     // Process zone update
     } else if ( msg.substring(0, 2) == "ZN" ) {
       if (msg.substring(3, 6) == "609") {
         log.debug "sending zone opened ${msg.substring(6, 9)}"
-        result = sendEvent(name: "zoneChanged", value: "${msg.substring(6, 9)}.open")
+        result += createEvent(name: "zoneChanged", value: "${msg.substring(6, 9)}.open")
       }
       else if (msg.substring(3, 6) == "610") {
         log.debug "sending zone closed ${msg.substring(6, 9)}"
-        result = sendEvent(name: "zoneChanged", value: "${msg.substring(6, 9)}.close")
+        result += createEvent(name: "zoneChanged", value: "${msg.substring(6, 9)}.close")
       }
     }
+
   }
 
-  log.debug "Parse returned ${result?.descriptionText}"
+  log.debug "Parse returned:"
+  result.each {
+    log.debug "    ${it.descriptionText}"
+  }
   return result
 }
 
