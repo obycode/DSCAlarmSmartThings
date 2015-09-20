@@ -88,10 +88,12 @@ Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the 
 | RX         | 14      | 2       |
 | TX         | 15      | 3       |
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jpg" width="400px"  />   
+<img src="https://cloud.githubusercontent.com/assets/5625006/9980971/22754c30-5f73-11e5-9f02-8901d09c08fc.jpg" width="400px"  />   
 
+<img src="https://cloud.githubusercontent.com/assets/5625006/7666139/553dc478-fb9e-11e4-9235-14c4c6b5496f.jpg" width="400px"  />		
+ 
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/7851848/2d6b0458-04bb-11e5-9353-a7615897922b.jpg" width="400px"  />
+<img src="https://cloud.githubusercontent.com/assets/5625006/9980972/24c288d6-5f73-11e5-9a14-00a81754f499.jpg" width="400px"  />
 
 
 Note, the ThingShield pins are not labeled.  So you can identify the pins using labels on the ArduinoMega picture (above) or by study the photos of my project (above).
