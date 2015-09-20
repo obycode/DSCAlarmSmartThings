@@ -111,8 +111,9 @@ Pin Configuration for AD2Pi to Arduino Mega
 | RX     | 10     | 19     |
 
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/9980971/22754c30-5f73-11e5-9f02-8901d09c08fc.jpg" width="400px"  />   
 <img src="https://cloud.githubusercontent.com/assets/5625006/9980972/24c288d6-5f73-11e5-9a14-00a81754f499.jpg" width="400px"  /> 
+<img src="https://cloud.githubusercontent.com/assets/5625006/9980971/22754c30-5f73-11e5-9f02-8901d09c08fc.jpg" width="400px"  />   
+
 
 
 ## The Software
