@@ -90,7 +90,6 @@ Use jumpers to provide a connection between Serial3 and Pins 2/3.  Here are the 
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7666138/53eafdde-fb9e-11e4-92a1-c0b40a0e9001.jpg" width="400px"  />   
 
-<img src="https://cloud.githubusercontent.com/assets/5625006/7666139/553dc478-fb9e-11e4-9235-14c4c6b5496f.jpg" width="400px"  />
 
 <img src="https://cloud.githubusercontent.com/assets/5625006/7851848/2d6b0458-04bb-11e5-9353-a7615897922b.jpg" width="400px"  />
 
@@ -107,7 +106,7 @@ Pin Configuration for AD2Pi to Arduino Mega
 |:--------:|:--------:|:--------:|
 | 3.3V   | 1      | 3.3V   |
 | GND    | 6      | GND    |
-| X      | 8	    | 18     |
+| TX     | 8	    | 18     |
 | RX     | 10     | 19     |
 
 
