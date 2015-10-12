@@ -64,6 +64,7 @@ boolean isDebugEnabled=false;  //set to true to debug
 int debugVerbosity=1; 
 int bufferIdx;  //counts characters as they come in from AD2Pi
 String previousChimeStatus;
+String previousAlarmStatus;
 int lastZone;  //stores the last zone number to fault to compare as faults are cycled by system
 int zoneStatusList[numZones + 1]; //stores each zone's status.  Adding 1 to numZones since element 0 will be a count of faulted zones and elements greater than 0 will equote to specific zone number
 
@@ -156,7 +157,6 @@ void processAD2() {
     //During exit now messages sometimes an extra [ appears at the beginning of the rawPanelCode, remove it if found
     rawPanelCode.replace("[[", "[");
     String chimeStatus = (rawPanelCode.substring(9,10) == "1") ? "chimeOn" : "chimeOff";
-    boolean alarmArmed = (rawPanelCode.substring(2,3) == "1" || rawPanelCode.substring(3,4) == "1") ? true : false;
     String zoneString = getValue(str, ',', 1);
     int zoneNumber = zoneString.toInt();
     String rawPanelBinary = getValue(str, ',', 2);
@@ -168,6 +168,15 @@ void processAD2() {
     }
     keypadMsg.replace("\"", "");
     keypadMsg.trim();
+    
+    String alarmStatus;
+    if (rawPanelCode.substring(2,3) == "0" && rawPanelCode.substring(3,4) == "0") {
+      alarmStatus = "disarmed";
+    } else if (rawPanelCode.substring(2,3) == "1") {
+        alarmStatus = "armedAway";
+    } else if (rawPanelCode.substring(3,4) == "1") {
+      alarmStatus = "armedStay";
+    }
 
     String faultList;
     
@@ -177,7 +186,7 @@ void processAD2() {
         Serial.print("rawPanelBinary: " + rawPanelBinary + ", ");
       }
       Serial.print("chimeStatus: " + chimeStatus + ", ");
-      Serial.print("alarmArmed: " + String(alarmArmed) + ", ");
+      Serial.print("alarmStatus: " + alarmStatus + ", ");
       Serial.print("zoneString: " + zoneString + ", ");
       Serial.println("keypadMsg: " + keypadMsg);
     }
@@ -191,38 +200,47 @@ void processAD2() {
     }
     
     if (keypadMsg.length() > 0) {
+      if (keypadMsg.indexOf("Exit Now") >= 0) {
+        alarmStatus.replace("armed", "arming");
+      }
+      
+      if (alarmStatus != previousAlarmStatus) {
+        smartthing.send("ALARMSTATUS:" + alarmStatus);
+        previousAlarmStatus = alarmStatus;
+        delay (3000);
+        smartthing.send(keypadMsg);
+        if (isDebugEnabled && debugVerbosity >= 1) {
+          Serial.println("Alarm status changed to " + alarmStatus + ", updating SmartThings: " + keypadMsg);
+        }
+      }
+      
       if (keypadMsg.indexOf("Hit * for faults") >= 0) {
         String sendCommand = "***";
         Serial1.println(sendCommand);  //send AD2Pi the command to pass on to Alarm Panel
         if (isDebugEnabled && debugVerbosity >= 1) {
           Serial.println("Faults were not displayed, Sent AD2Pi: " + sendCommand);
         } 
-      } else if (alarmArmed && keypadMsg.indexOf("Exit Now") >= 0) {
+      } else if (alarmStatus.indexOf("arming") >= 0 || keypadMsg.indexOf("DISARMED") >= 0) {
         if (zoneStatusList[0] > 0) {
           faultList = getActiveList(1, numZones + 1);
           lastZone = 0;
           smartthing.send(keypadMsg + "|" + faultList);
           if (isDebugEnabled && debugVerbosity >= 1) {
-            Serial.println("Message contains Exit Now - faultList: " + faultList);
+            if (alarmStatus.indexOf("arming") >= 0) {
+              Serial.println("Message contains Exit Now - faultList: " + faultList);
+            } else {
+              Serial.println("Message contains disarmed - faultList: " + faultList);
+            }
           }
         } else {
           smartthing.send(keypadMsg);
           if (isDebugEnabled && debugVerbosity >= 1) {
-            Serial.println("Message contains Exit Now - no faults");
-          } 
-        }
-      } else if (keypadMsg.indexOf("DISARMED") >= 0) {
-        if (zoneStatusList[0] > 0) {
-          faultList = getActiveList(1, numZones + 1);
-          lastZone = 0;
-          smartthing.send(keypadMsg + "|" + faultList);
-          if (isDebugEnabled && debugVerbosity >= 1) {
-            Serial.println("Message contains disarmed - faultList: " + faultList);
+            if (alarmStatus.indexOf("arming") >= 0) {
+              Serial.println("Message contains Exit Now - no faults skipping SmartThings Update");
+            } else {
+              Serial.println("Message contains disarmed - no faults skipping SmartThings Update");
+            }
           }
-        } else {
-          if (isDebugEnabled && debugVerbosity >= 1) {
-            Serial.println("Message contains disarmed - no faults skipping SmartThings Update");
-          } 
         }
       } else {
         if (zoneStatusList[zoneNumber] == 0) {
@@ -287,8 +305,7 @@ void processAD2() {
   }
 }
 
-void messageCallout(String message)
-{ 
+void messageCallout(String message) { 
   String code;
   String cmd;
   if(message.length() > 0) { //avoids processing ping from hub
@@ -375,6 +392,11 @@ String getActiveList(int start, int end) {
 
 void printArray(int *a, int n) {
   for (int i = 0; i < n; i++) {
+    if (i == 0) {
+      Serial.print("Count:");
+    } else {
+      Serial.print(String(i) + ":");
+    }
     Serial.print(a[i], DEC);
     Serial.print(' ');
   }
