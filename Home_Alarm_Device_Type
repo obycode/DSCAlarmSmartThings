@@ -343,7 +343,7 @@ def parse(String description) {
         if (msg.contains("|")) {
             alarmMsg  = msg.substring(0, msg.lastIndexOf("|"))
             zoneArray = msg.substring(msg.lastIndexOf("|") + 1)
-        	zoneList = zoneArray.split(",");
+            zoneList = zoneArray.split(",");
             //log.info "msg: ${msg} alarmMsg: ${alarmMsg} zoneArray: ${zoneArray} zoneList[0]: ${zoneList[0].trim()}"
         } else {
             alarmMsg = msg
@@ -351,14 +351,26 @@ def parse(String description) {
 
         result << createEvent(name: "msg", value: alarmMsg)  //display message to message tile
 
-		if (msg.contains("...."))  {
-			result << createEvent(name: "msg", value: "Having Trouble Sending")  
+	if (msg.contains("...."))  {
+		result << createEvent(name: "msg", value: "Having Trouble Sending")  
     	}
         
-        if (msg.contains("DISARMED")) {
-			result << createEvent(name: "system", value: "disarmed", displayed: true, isStateChange: true, isPhysical: true)
-
-            if (zoneArray.equals("")) {
+        if (msg.contains("CHIMESTATUS"))  {
+        	def chimeStatus = msg.substring(msg.lastIndexOf(":") + 1)
+            //log.info "chimeStatus: ${chimeStatus} "
+            result << createEvent(name: "chime", value: "${chimeStatus}", displayed: true, isStateChange: true, isPhysical: true)
+    	}
+        
+        if (msg.contains("ALARMSTATUS")) {
+            def alarmStatus = msg.substring(msg.lastIndexOf(":") + 1)
+            //log.info "alarmStatus: ${alarmStatus} "
+            result << createEvent(name: "system", value: "${alarmStatus}", displayed: true, isStateChange: true, isPhysical: true)
+        } else if (msg.contains("ALARM")) {
+    		result << createEvent(name: "system", value: "alarm", displayed: true, isStateChange: true, isPhysical: true)
+    	}
+        
+        if (msg.contains("DISARMED") || msg.contains("ARMED")) {
+            if (zoneArray.equals("") || zoneArray == null) {
     			// Do Nothing
     		} else {
                 for (int i = 0; i < zoneList.size(); i++) {
@@ -369,53 +381,26 @@ def parse(String description) {
     	}
         
         if (msg.contains("FAULT")) {
-            for (int i = 0; i < zoneList.size(); i++) {
-        		//log.info "Home Alarm Sensor Fault Zone ${zoneList[i].trim()}"
-        		result << createEvent(name: "zone${zoneList[i].trim()}", value: "active", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)    
-        	}
-        }
-        
-        if (msg.contains("INACTIVE")) {
-            for (int i = 0; i < zoneList.size(); i++) {
-        		//log.info "Home Alarm Sensor Fault Zone ${zoneList[i].trim()}"
-        		result << createEvent(name: "zone${zoneList[i].trim()}", value: "inactive", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)    
-        	}
-        }
- 		
-        if (msg.contains("CHIMESTATUS"))  {
-        	def chimeStatus = msg.substring(msg.lastIndexOf(":") + 1)
-            //log.info "chimeStatus: ${chimeStatus} "
-            result << createEvent(name: "chime", value: "${chimeStatus}", displayed: true, isStateChange: true, isPhysical: true)
-    	}
-    	
-        if (msg.contains("ALARM")) {
-    		result << createEvent(name: "system", value: "alarm", displayed: true, isStateChange: true, isPhysical: true)
-    	}
-    	
-        if (msg.contains("ARMED")) {
-        	if (msg.contains("STAY")) {
-        		if (msg.toLowerCase().contains("exit now")) {
-            		result << createEvent(name: "system", value: "armingStay", displayed: true, isStateChange: true, isPhysical: true)
-        		} else {
-            		result << createEvent(name: "system", value: "armedStay", displayed: true, isStateChange: true, isPhysical: true)
-        		}
-        	} else if (msg.contains("AWAY")) {
-        		if (msg.contains.toLowerCase("exit now")) {
-            		result << createEvent(name: "system", value: "armingAway", displayed: true, isStateChange: true, isPhysical: true)
-        		} else {
-            		result << createEvent(name: "system", value: "armedAway", displayed: true, isStateChange: true, isPhysical: true)
-				}
-        	}
-        	
-        	if (zoneArray.equals("")) {
+            if (zoneArray.equals("") || zoneArray == null) {
     			// Do Nothing
     		} else {
                 for (int i = 0; i < zoneList.size(); i++) {
-                    //log.info "Created event for zone${zoneList[i].trim()}"
-                    result << createEvent(name: "zone${zoneList[i].trim()}", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
+                    //log.info "Home Alarm Sensor Fault Zone ${zoneList[i].trim()}"
+                    result << createEvent(name: "zone${zoneList[i].trim()}", value: "active", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)
                 }
             }
-    	}
+        }
+        
+        if (msg.contains("INACTIVE")) {
+            if (zoneArray.equals("") || zoneArray == null) {
+    			// Do Nothing
+    		} else {
+                for (int i = 0; i < zoneList.size(); i++) {
+                    //log.info "Home Alarm Sensor Fault Zone ${zoneList[i].trim()}"
+                    result << createEvent(name: "zone${zoneList[i].trim()}", value: "inactive", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)    
+                }
+            }
+        }
     	
 		//log.debug "Parse returned ${result?.descriptionText}"
 		return result
