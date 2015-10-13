@@ -25,12 +25,14 @@ metadata {
     // TODO: define status and reply messages here
   }
 
-  tiles {
-    standardTile("break", "device.motion", width: 2, height: 2, canChangeIcon: true) {
-            state "inactive", icon: "st.Home.home9", backgroundColor: "#79b821"
-            state "active", icon: "st.Home.home9", backgroundColor: "#ffa81e"
+  tiles(scale: 2) {
+    multiAttributeTile(name:"break", type: "generic", width: 6, height: 4, canChangeIcon: true){
+      tileAttribute ("device.motion", key: "PRIMARY_CONTROL") {
+        attributeState "active", label: '${name}', icon:"st.Home.home9", backgroundColor:"#ffa81e"
+        attributeState "inactive", label:'${name}', icon:"st.Home.home9", backgroundColor:"#79b821"
+      }
     }
-        main "break"
+    main "break"
     details(["break"])
   }
 }

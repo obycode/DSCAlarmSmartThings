@@ -24,12 +24,15 @@ metadata {
     // TODO: define status and reply messages here
   }
 
-  tiles {
-    standardTile("contact", "device.contact", width: 2, height: 2, canChangeIcon: true) {
-      state "closed", icon: "st.contact.contact.closed", backgroundColor: "#79b821"
-            state "open", icon: "st.contact.contact.open", backgroundColor: "#ffa81e"
+  tiles(scale: 2) {
+    multiAttributeTile(name:"contact", type: "generic", width: 6, height: 4, canChangeIcon: true){
+      tileAttribute ("device.contact", key: "PRIMARY_CONTROL") {
+        attributeState "open", label: '${name}', icon:"st.contact.contact.open", backgroundColor:"#ffa81e"
+        attributeState "closed", label:'${name}', icon:"st.contact.contact.closed", backgroundColor:"#79b821"
+      }
     }
-        main "contact"
+
+    main "contact"
     details(["contact"])
   }
 }

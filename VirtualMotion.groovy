@@ -24,14 +24,17 @@ metadata {
     // TODO: define status and reply messages here
   }
 
-  tiles {
-    standardTile("motion", "device.motion", width: 2, height: 2, canChangeIcon: true) {
-            state "inactive", icon: "st.motion.motion.inactive", backgroundColor: "#79b821"
-             state "active", icon: "st.motion.motion.active", backgroundColor: "#ffa81e"
-    }
-        main "motion"
-    details(["motion"])
-  }
+  tiles(scale: 2) {
+		multiAttributeTile(name:"motion", type: "generic", width: 6, height: 4, canChangeIcon: true){
+			tileAttribute ("device.motion", key: "PRIMARY_CONTROL") {
+				attributeState "active", label: '${name}', icon:"st.motion.motion.inactive", backgroundColor:"#ffa81e"
+				attributeState "inactive", label:'${name}', icon:"st.motion.motion.active", backgroundColor:"#79b821"
+			}
+		}
+
+		main "motion"
+		details(["motion"])
+	}
 }
 
 // parse events into attributes
