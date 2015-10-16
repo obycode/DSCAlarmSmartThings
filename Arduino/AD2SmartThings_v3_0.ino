@@ -309,9 +309,9 @@ void messageCallout(String message) {
   String code;
   String cmd;
   if(message.length() > 0) { //avoids processing ping from hub
-    Serial.println("Received from hub:" + message);
     String code = message.substring(0,6);
     if (isDebugEnabled && debugVerbosity >= 2) {
+      Serial.println("Received from hub:" + message);
       Serial.println("code =" + code);
     }
     String cmd = message.substring(6);
