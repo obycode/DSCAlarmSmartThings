@@ -46,6 +46,7 @@ metadata {
 	capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
         capability "Lock"  // <lock> will arm alarm in "away" mode; same as armAway
 	capability "Alarm" // enables <both> or <siren> to  immediately alarm the system
+	capability "Motion Sensor" //allows your alarm panel to mimic a motion sensor. The motion sensor will be active when system alarms
         
         command "disarm"
         command "armStay"
@@ -58,6 +59,7 @@ metadata {
         
         attribute "system", "string"
         attribute "msg", "string"
+        attribute "alertMsg", "string"
 
 	}
 }
@@ -140,7 +142,7 @@ tiles {
 		state "inactive", label: 'Zone 3', icon: "st.security.alarm.clear", backgroundColor: "#ffffff"
 		state "active", label: 'Zone 3', icon: "st.security.alarm.alarm", backgroundColor: "#ffa81e"
 	}
- 	standardTile("zoneFour", "device.zone4", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
+ 	standardTile("zone4", "device.zone4", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
     	{	
 		state "inactive", label: 'Zone 4', icon: "st.security.alarm.clear", backgroundColor: "#ffffff"
 		state "active", label: 'Zone 4', icon: "st.security.alarm.alarm", backgroundColor: "#ffa81e"
@@ -155,7 +157,22 @@ tiles {
 		state "inactive", label: 'Zone 6', icon: "st.security.alarm.clear", backgroundColor: "#ffffff"
 		state "active", label: 'Zone 6', icon: "st.security.alarm.alarm", backgroundColor: "#53a7c0"
 	}                      
-    	standardTile("zone10", "device.zone10", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
+    standardTile("zone7", "device.zone7", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
+    	{
+		state "inactive", label: 'Zone 7', icon: "st.security.alarm.clear", backgroundColor: "#ffffff"
+		state "active", label: 'Zone 7', icon: "st.security.alarm.alarm", backgroundColor: "#53a7c0"
+	}
+	standardTile("zone8", "device.zone8", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
+    	{
+		state "inactive", label: 'Zone 8', icon: "st.security.alarm.clear", backgroundColor: "#ffffff"
+		state "active", label: 'Zone 8', icon: "st.security.alarm.alarm", backgroundColor: "#53a7c0"
+	}
+	standardTile("zone9", "device.zone9", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
+    	{
+		state "inactive", label: 'Zone 9', icon: "st.security.alarm.clear", backgroundColor: "#ffffff"
+		state "active", label: 'Zone 9', icon: "st.security.alarm.alarm", backgroundColor: "#53a7c0"
+	}
+	standardTile("zone10", "device.zone10", width: 1, height:1, inactiveLabel: false, canChangeIcon: true, canChangeBackground: true) 
     	{
 		state "inactive", label: 'Zone 10', icon: "st.security.alarm.clear", backgroundColor: "#ffffff"
 		state "active", label: 'Zone 10', icon: "st.security.alarm.alarm", backgroundColor: "#53a7c0"
@@ -327,84 +344,84 @@ tiles {
 
 // Parse incoming device messages to generate events
 def parse(String description) {
-	
+  	//log.debug "Parsing: ${description}"
+    def isDebugEnabled = false
+  	
   	def result = []
+    def rawMsg = zigbee.parse(description)?.text
+    if (isDebugEnabled) log.debug "rawMsg: ${rawMsg}"
     
-//	log.debug "Parsing: ${description}"
-
-	def msg = zigbee.parse(description)?.text
-    
-    if (msg.contains("ping") || msg.equals("")) {
+    if (rawMsg.contains("ping") || rawMsg.equals("") || rawMsg == null) {
     	// Do Nothing
-    } else {
-	def alarmMsg
-        def zoneArray
-        def zoneList
-        if (msg.contains("|")) {
-            alarmMsg  = msg.substring(0, msg.lastIndexOf("|"))
-            zoneArray = msg.substring(msg.lastIndexOf("|") + 1)
-            zoneList = zoneArray.split(",");
-            //log.info "msg: ${msg} alarmMsg: ${alarmMsg} zoneArray: ${zoneArray} zoneList[0]: ${zoneList[0].trim()}"
-        } else {
-            alarmMsg = msg
-        }
-
-        result << createEvent(name: "msg", value: alarmMsg)  //display message to message tile
-
-	if (msg.contains("...."))  {
+    } else if (rawMsg.contains("...."))  {
 		result << createEvent(name: "msg", value: "Having Trouble Sending")  
-    	}
-        
-        if (msg.contains("CHIMESTATUS"))  {
-        	def chimeStatus = msg.substring(msg.lastIndexOf(":") + 1)
-            //log.info "chimeStatus: ${chimeStatus} "
+    } else if (rawMsg.contains("!"))  {
+		result << createEvent(name: "msg", value: rawMsg)  
+    } else if (rawMsg.contains("|")) {        
+        //0:powerStatus, 1:chimeStatus, 2:alarmStatus, 3:keypadMsg, 4:activeZone, 5:inactiveList
+        String[] msgSplit = rawMsg.toString().split("[|]", 7);
+
+        def powerStatus = msgSplit[0].trim()
+        def chimeStatus = msgSplit[1].trim()
+        def alarmStatus = msgSplit[2].trim()
+        def keypadMsg = msgSplit[3].trim()
+		def activeZone = msgSplit[4].trim()
+        def inactiveList = msgSplit[5].trim()
+
+        if (powerStatus != "" && powerStatus != null) {
+            if (powerStatus == "AC") {
+                result << createEvent(name: "alertMsg", value: "Alarm on AC Power")
+            } else if (powerStatus == "BN") {
+                result << createEvent(name: "alertMsg", value: "Alarm on Battery Power: Fully Charged")
+            } else if (powerStatus == "BL") {
+                result << createEvent(name: "alertMsg", value: "Alarm on Battery Power: Low Charge")
+            }
+            if (isDebugEnabled) log.debug "powerStatus: ${powerStatus}"
+        }
+		
+        if (chimeStatus != "" && chimeStatus != null) {
             result << createEvent(name: "chime", value: "${chimeStatus}", displayed: true, isStateChange: true, isPhysical: true)
-    	}
-        
-        if (msg.contains("ALARMSTATUS")) {
-            def alarmStatus = msg.substring(msg.lastIndexOf(":") + 1)
-            //log.info "alarmStatus: ${alarmStatus} "
+            if (isDebugEnabled) log.debug "chimeStatus: ${chimeStatus}"
+        }
+			
+        if (alarmStatus != "" && alarmStatus != null) {
+            if (alarmStatus == "alarm") {
+                result << createEvent(name: "alertMsg", value: "Alarm is sounding!!")
+                if (isDebugEnabled) log.debug "alertMsg: Alarm is sounding!!"
+            }
             result << createEvent(name: "system", value: "${alarmStatus}", displayed: true, isStateChange: true, isPhysical: true)
-        } else if (msg.contains("ALARM")) {
-    		result << createEvent(name: "system", value: "alarm", displayed: true, isStateChange: true, isPhysical: true)
-    	}
-        
-        if (msg.contains("DISARMED") || msg.contains("ARMED")) {
-            if (zoneArray.equals("") || zoneArray == null) {
-    			// Do Nothing
-    		} else {
-                for (int i = 0; i < zoneList.size(); i++) {
-                    //log.info "Created event for zone${zoneList[i].trim()}"
-                    result << createEvent(name: "zone${zoneList[i].trim()}", value: "inactive", displayed: true, isStateChange: true, isPhysical: true)
-                }
+            if (isDebugEnabled) log.debug "alarmStatus: ${alarmStatus}"
+        }
+		
+		if (keypadMsg != "" && keypadMsg != null) {
+			result << createEvent(name: "msg", value: keypadMsg)  //display message to message tile
+            if (keypadMsg == "Alarm not ready cannot arm") {
+                if (isDebugEnabled) log.debug "alertMsg: ${keypadMsg}"
+            	result << createEvent(name: "alertMsg", value: keypadMsg)
             }
-    	}
-        
-        if (msg.contains("FAULT")) {
-            if (zoneArray.equals("") || zoneArray == null) {
-    			// Do Nothing
-    		} else {
-                for (int i = 0; i < zoneList.size(); i++) {
-                    //log.info "Home Alarm Sensor Fault Zone ${zoneList[i].trim()}"
-                    result << createEvent(name: "zone${zoneList[i].trim()}", value: "active", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)
-                }
-            }
+            if (isDebugEnabled) log.debug "keypadMsg: ${keypadMsg}"
         }
         
-        if (msg.contains("INACTIVE")) {
-            if (zoneArray.equals("") || zoneArray == null) {
-    			// Do Nothing
-    		} else {
-                for (int i = 0; i < zoneList.size(); i++) {
-                    //log.info "Home Alarm Sensor Fault Zone ${zoneList[i].trim()}"
-                    result << createEvent(name: "zone${zoneList[i].trim()}", value: "inactive", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)    
-                }
+        if (activeZone.equals("") || activeZone == null) {
+            // Do Nothing
+        } else {
+            result << createEvent(name: "zone${activeZone.trim()}", value: "active", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)
+            if (isDebugEnabled) log.debug "Created active event for zone${activeZone.trim()}"
+        }
+        
+        if (inactiveList.equals("") || inactiveList == null) {
+            // Do Nothing
+        } else {
+            def inactiveArray = inactiveList.toString().split(",");
+            for (int i = 0; i < inactiveArray.size(); i++) {
+                result << createEvent(name: "zone${inactiveArray[i].trim()}", value: "inactive", descriptionText: alarmMsg, displayed: true, isStateChange: true, isPhysical: true)
+                if (isDebugEnabled) log.debug "Created inactive event for zone${inactiveArray[i].trim()}"
             }
         }
-    	
-		//log.debug "Parse returned ${result?.descriptionText}"
-		return result
-	}
+	} else {
+		result << createEvent(name: "msg", value: rawMsg)
+    }
+    return result
 }
 
 // Commands sent to the device
@@ -462,7 +479,6 @@ def config()
 {
     log.debug "sending AD2Pi Config Command: ${configCommand}"
     zigbee.smartShield(text: "[CONF]${configCommand}").format()
-//  TODO: reset the configCommand value to null
 }
 
 def pressPanicOnce() 
