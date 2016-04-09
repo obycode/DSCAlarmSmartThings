@@ -356,7 +356,7 @@ void messageCallout(String message) {
 	    smartthing.send(String("||disarmed|Alarm not ready cannot arm|||"));
 	    serialLog("Sent to SmartThings: " + String("||disarmed|Alarm not ready cannot arm|||"), 0);
 	  } else {
-	    String sendCommand = securityCode + cmd;
+	    String sendCommand = code + cmd;
 	    Serial1.println(sendCommand);  //send AD2Pi the command to pass on to Alarm Panel
 	    serialLog("Sent AD2Pi: " + sendCommand, 0);
 	  }
