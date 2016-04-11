@@ -125,7 +125,6 @@ void processAD2() {
   buffer[bufferIdx] = '\0'; //adds null at end of buffer
   bufferIdx = 0; // reset  counter for next message
   String str(buffer);
-  Serial.println(str);
   if (str.indexOf("!RFX:") >= 0 || str.indexOf("!EXP:") >= 0 || str.equals("!>null")) {
     // do nothing
     serialLog("Skipping SmartThings Update - Found !RFX or !EXP or !>null: " + str, 2);
@@ -356,7 +355,7 @@ void messageCallout(String message) {
 	    smartthing.send(String("||disarmed|Alarm not ready cannot arm|||"));
 	    serialLog("Sent to SmartThings: " + String("||disarmed|Alarm not ready cannot arm|||"), 0);
 	  } else {
-	    String sendCommand = code + cmd;
+	    String sendCommand = cmd;
 	    Serial1.println(sendCommand);  //send AD2Pi the command to pass on to Alarm Panel
 	    serialLog("Sent AD2Pi: " + sendCommand, 0);
 	  }
