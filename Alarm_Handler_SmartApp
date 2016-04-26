@@ -100,6 +100,9 @@ def initialize() {
             //log.debug("created device: ${deviceID}")
         }
         
+        myDevice.name = zoneName
+    	myDevice.label = zoneName
+
         if (zoneType == "Simulated Contact Sensor") {
         	//log.debug("Subscribing to ${arduino}, ${zoneNumber}, contactHandler")
             subscribe(arduino, zoneNumber, contactHandler)
