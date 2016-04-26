@@ -1,5 +1,5 @@
 /**
- *  Alarm Handler
+ *  Alarm Handler2
  *
  *  Copyright 2015 Michael Ritchie
  *
@@ -15,7 +15,7 @@
  */
  
 definition(
-    name: "Alarm Handler",
+    name: "Alarm Handler2",
     namespace: "mlritchie",
     author: "Michael Ritchie",
     description: "Create virtual devices for each alarm zone",
@@ -98,10 +98,10 @@ def initialize() {
             //log.debug("creating device: ${zoneName} deviceID: ${deviceID}")
             def childDevice = addChildDevice("smartthings", zoneType, deviceID, null, [name: "${zoneName}", label: "${zoneName}"])
             //log.debug("created device: ${deviceID}")
+        } else {        
+            myDevice.name = zoneName
+            myDevice.label = zoneName
         }
-        
-        myDevice.name = zoneName
-    	myDevice.label = zoneName
 
         if (zoneType == "Simulated Contact Sensor") {
         	//log.debug("Subscribing to ${arduino}, ${zoneNumber}, contactHandler")
