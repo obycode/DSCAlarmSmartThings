@@ -4,7 +4,7 @@
  *  Honeywell/Ademco alarms are usually installed by ADT and other companies.  Check your alarm panel to verify
  *  This SmartThings Device Type Code Works With Arduino Connected To An AD2Pi Wired To A Honeywell/Ademco Home Alarm
  *
- *	By Stan Dotson (stan@dotson.info) 
+ *	By Stan Dotson (stan@dotson.info) and Michael Ritchie
  *
  *	Credits:
  *  Lots of good ideas from @craig whose code can be found at https://gist.github.com/e5b30109fdaec805d474.git
@@ -40,7 +40,7 @@ preferences {
 
 
 metadata {
-	definition (name: "AD2SmartThings v2.1", version: "2.1",author: "stan@dotson.info") 
+	definition (name: "AD2SmartThings v3.1", version: "3.1",author: "stan@dotson.info") 
     	{
 
 	capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
