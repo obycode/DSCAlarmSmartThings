@@ -1,4 +1,4 @@
-## AD2SmartThings v2.1
+## AD2SmartThings v3.1
 ### ===================
 ### Integrate your Honeywell or Ademco alarm panel into your SmartThings physical graph
 ADT / Honeywell / Ademco / Vista / Alarm / SmartThings / Alarm Panel / Home Alarm
