@@ -1,5 +1,5 @@
 /**
- *  Alarm Handler2
+ *  Alarm Handler
  *
  *  Copyright 2015 Michael Ritchie
  *
@@ -15,7 +15,7 @@
  */
  
 definition(
-    name: "Alarm Handler2",
+    name: "Alarm Handler",
     namespace: "mlritchie",
     author: "Michael Ritchie",
     description: "Create virtual devices for each alarm zone",
