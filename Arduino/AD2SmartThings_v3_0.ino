@@ -1,6 +1,6 @@
  
 /** 
- * AD2SmartThings v4.0.1
+ * AD2SmartThings v4.1
  * Couple your Ademco/Honeywell Alarm to your SmartThings Graph using an AD2PI, an Arduino and a ThingShield
  * The Arduino passes all your alarm messages to your SmartThings Graph where they can be processed by the Device Type
  * Use the Device Type to control your alarm or use SmartApps to integrate with other events in your home graph
