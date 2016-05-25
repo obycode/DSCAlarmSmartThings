@@ -130,7 +130,7 @@ http://arduino.cc/en/main/software
 
 Once the software is installed, the first thing to do is obtain the required libraries.  
 
-* Timer library was created by Simon Monk as modified by JChristensen.  A copy is included in this repository/release for your convenience.
+* ArduinoJson library was created by Benoit Blanchon.  A copy is included in this repository/release for your convenience.
 * A copy of the SmartThings library contained in this repository/release.  This is the ST_Anything version of the SmartThings library.  The libraries from SmartThings and the SmartThingsMega libraries do not work.
 * SoftwareSerial library was default library provided with Arduino IDE
  
