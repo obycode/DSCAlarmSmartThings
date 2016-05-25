@@ -1,4 +1,4 @@
-## AD2SmartThings v3.1
+## AD2SmartThings v4.1
 ### ===================
 ### Integrate your Honeywell or Ademco alarm panel into your SmartThings physical graph
 ADT / Honeywell / Ademco / Vista / Alarm / SmartThings / Alarm Panel / Home Alarm
@@ -16,7 +16,7 @@ After installing this project, control of your alarm panel becomes intuitive and
 
 
 ***Release Note:***
-*This release standardizes the hardware assembly of the AD2SmartThings device, which addresses the top two support issues.  The release includes a new Version 2.1 of the Arduino sketch and a new README with updated project instructions.  The release does not add any additional capabilities to Version 2.0 and uses the same Device Type.  If you already updated to Version 2.0 or recently completed the project, I don't see any reason to update.  However, if you still want to update, you simply reconfigure your hardware and update the Arduino sketch being sure to include the ST_Anything SmartThings library.  The libraries from SmartThings and the ArduinoMega library are not compatable with this Version 2.1 sketch. You must use the ST_Anything SmartThings library. A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. This release is not backwards compatable with the Version 1.X device type.*
+*This release allows for independent zone processing and reduces the logging from the Aruidno in SmartThings recent history. Also included is a SmartApp that will automatically create virtual contact and motion sensors which allows you to subscribe to these from other SmartApps. The release includes a new Version 4.1 of the Arduino sketch and a new README with updated project instructions.  The libraries from SmartThings and the ArduinoMega library are not compatable with this Version 4.1 sketch. You must use the ST_Anything SmartThings library. A big thanks to Daniel Ogorchock and his son, Daniel Ogorchock, for creating a superior version of the SmartThings library with many enhancements and  full support for the Arduino Mega. This release is not backwards compatable with the Version 1.X device type.*
 
 ## High Level Project Steps
 
@@ -195,6 +195,22 @@ To install the device type code:
 9.  Go to My Devices tab 
 10.  Select your Arduino and using the drop down, select your newly created AD2SmartThings device type (v2 or later).
 11.  Go to your mobile device and the Arduino tile should now display as a Home Alarm tile.  Hint: on the iPhone, sometimes you have to kill the SmartThings app two times before a new device type update will display on the SmartThings iPhone app.
+
+To install the SmartApp code: 
+
+1.  Go to graph.api.smartthings.com   
+2.  Select My Device Types tab
+3.  Click the +NewSmartDevice button
+4.  Choose "From Code" tab
+5.  Paste the Simulated_Contact_Sensor_Device_Handler device type code from this repository
+6.  Save and Publish (for me) the device type.  You have to Publish!
+7.  Repeat steps 3-6 for the Simulated_Motion_Sensor_Device_Handler device type code from this repository.
+9.  Go to My SmartApps tab
+10. Click + New AmartApp button
+11. Choose "From Code" tab
+12. Paste the Alarm_Handler_SmartApp code from this repository
+13. Save and Publish (for me) the device type.  You have to Publish!
+14. Go to your mobile device and to the SmartThings Market in the bottom right corner of the app.  Select the SmartApps tab and scroll to the bottom of the list.  Select My Apps and choose Alarm handler and configure it based on your alarm zone settings.
 
 ## Connect Your Project To Your Alarm Panel
 
