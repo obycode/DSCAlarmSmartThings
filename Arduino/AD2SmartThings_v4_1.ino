@@ -51,6 +51,7 @@
 #define BUFFER_SIZE   300 // max message length from ADT
 #define numZones      36 // Set the number of zones in your system
 
+SmartThingsCallout_t messageCallout; // call out function forward declaration
 SmartThings smartthing(HW_SERIAL3, messageCallout);  //constructor for hardware serial port with ST_Anything Library
 
 // set global variables
