@@ -338,8 +338,8 @@ void processAD2() {
       if (sendMessage.length() > 63) {
         sendMessage = sendMessage.substring(1, 63);
       }
-      smartthing.send(sendMessage);
       serialLog("Sent to SmartThings: " + sendMessage, 0);
+      smartthing.send(sendMessage);
     }
   }
 }
