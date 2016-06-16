@@ -40,7 +40,7 @@ preferences {
 
 
 metadata {
-	definition (name: "AD2SmartThings v4.1", version: "4.1",author: "stan@dotson.info") 
+	definition (name: "AD2SmartThings v4.2", version: "4.2",author: "stan@dotson.info") 
     	{
 
 	capability "Switch"  // <on> will arm alarm in "stay" mode; same as armStay
@@ -358,15 +358,15 @@ def parse(String description) {
     } else if (rawMsg.contains("!"))  {
 		result << createEvent(name: "msg", value: rawMsg)  
     } else if (rawMsg.contains("|")) {        
-        //0:powerStatus, 1:chimeStatus, 2:alarmStatus, 3:keypadMsg, 4:activeZone, 5:inactiveList
+        //0:powerStatus, 1:chimeStatus, 2:alarmStatus, 3:activeZone, 4:inactiveList, 5:keypadMsg
         String[] msgSplit = rawMsg.toString().split("[|]", 7);
 
         def powerStatus = msgSplit[0].trim()
         def chimeStatus = msgSplit[1].trim()
         def alarmStatus = msgSplit[2].trim()
-        def keypadMsg = msgSplit[3].trim()
-		def activeZone = msgSplit[4].trim()
-        def inactiveList = msgSplit[5].trim()
+		def activeZone = msgSplit[3].trim()
+        def inactiveList = msgSplit[4].trim()
+        def keypadMsg = msgSplit[5].trim()
 
         if (powerStatus != "" && powerStatus != null) {
             if (powerStatus == "AC") {
@@ -392,15 +392,6 @@ def parse(String description) {
             result << createEvent(name: "system", value: "${alarmStatus}", displayed: true, isStateChange: true, isPhysical: true)
             if (isDebugEnabled) log.debug "alarmStatus: ${alarmStatus}"
         }
-		
-		if (keypadMsg != "" && keypadMsg != null) {
-			result << createEvent(name: "msg", value: keypadMsg)  //display message to message tile
-            if (keypadMsg == "Alarm not ready cannot arm") {
-                if (isDebugEnabled) log.debug "alertMsg: ${keypadMsg}"
-            	result << createEvent(name: "alertMsg", value: keypadMsg)
-            }
-            if (isDebugEnabled) log.debug "keypadMsg: ${keypadMsg}"
-        }
         
         if (activeZone.equals("") || activeZone == null) {
             // Do Nothing
@@ -418,8 +409,17 @@ def parse(String description) {
                 if (isDebugEnabled) log.debug "Created inactive event for zone${inactiveArray[i].trim()}"
             }
         }
-	} else {
-		result << createEvent(name: "msg", value: rawMsg)
+        
+        if (keypadMsg != "" && keypadMsg != null) {
+	    result << createEvent(name: "msg", value: keypadMsg)  //display message to message tile
+            if (keypadMsg == "Alarm not ready cannot arm") {
+                if (isDebugEnabled) log.debug "alertMsg: ${keypadMsg}"
+            	result << createEvent(name: "alertMsg", value: keypadMsg)
+            }
+            if (isDebugEnabled) log.debug "keypadMsg: ${keypadMsg}"
+        }
+    } else {
+	result << createEvent(name: "msg", value: rawMsg)
     }
     return result
 }
