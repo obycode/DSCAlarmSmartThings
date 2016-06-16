@@ -130,12 +130,11 @@ void processAD2() {
     // do nothing
     serialLog("Skipping SmartThings Update - Found !RFX or !EXP or !>null: " + str, 2);
   } else if (str.indexOf("!CONFIG>ADDRESS=") >= 0) {
-    smartthing.send(str.substring(8,18));
     serialLog("SmartThings Update - Config Command Processed: " + str, 1);
+    smartthing.send(str.substring(8,18));
     delay (3000);
   } else if (str.indexOf("!Sending.done") >= 0) {
-    // do nothing
-    serialLog("Skipping SmartThings Update - Config Command Processed: " + str, 1);
+    smartthing.send(str);
   } else {
     StaticJsonBuffer<200> jsonBuffer;
     JsonObject& stMessage = jsonBuffer.createObject();
@@ -357,8 +356,8 @@ void messageCallout(String message) {
 	  //Check to see if arming away and if alarm is ready, if not send notification that alarm cannot be armed.
 	  //This won't work for arming stay since motions could be active that don't affect arm stay.
 	  if (cmd == "2" && zoneStatusList[0] > 0) {
-	    smartthing.send(String("||disarmed|Alarm not ready cannot arm|||"));
 	    serialLog("Sent to SmartThings: " + String("||disarmed|Alarm not ready cannot arm|||"), 0);
+	    smartthing.send(String("||disarmed|Alarm not ready cannot arm|||"));
 	  } else {
 	    String sendCommand = cmd;
 	    Serial1.println(sendCommand);  //send AD2Pi the command to pass on to Alarm Panel
