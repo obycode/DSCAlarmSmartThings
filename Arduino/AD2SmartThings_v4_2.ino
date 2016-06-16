@@ -1,6 +1,6 @@
  
 /** 
- * AD2SmartThings v4.1
+ * AD2SmartThings v4.2
  * Couple your Ademco/Honeywell Alarm to your SmartThings Graph using an AD2PI, an Arduino and a ThingShield
  * The Arduino passes all your alarm messages to your SmartThings Graph where they can be processed by the Device Type
  * Use the Device Type to control your alarm or use SmartApps to integrate with other events in your home graph
@@ -302,7 +302,7 @@ void processAD2() {
     }
     stMessage.printTo(stMessagBbuffer, sizeof(stMessagBbuffer));
     if (String(stMessagBbuffer) != "{}") {
-      //0:powerStatus, 1:chimeStatus, 2:alarmStatus, 3:keypadMsg, 4:activeZone, 5:inactiveList
+      //0:powerStatus, 1:chimeStatus, 2:alarmStatus, 3:activeZone, 4:inactiveList, 5:keypadMsg
       String sendMessage;
       if (stMessage.containsKey("powerStatus")) {
         sendMessage = sendMessage + String(stMessage["powerStatus"].asString()) + "|";
@@ -319,11 +319,6 @@ void processAD2() {
       } else {
         sendMessage = sendMessage + "|";
       }
-      if (stMessage.containsKey("keypadMsg")) {
-        sendMessage = sendMessage + String(stMessage["keypadMsg"].asString()) + "|";
-      } else {
-        sendMessage = sendMessage + "|";
-      }
       if (stMessage.containsKey("activeZone")) {
         sendMessage = sendMessage + String(stMessage["activeZone"].asString()) + "|";
       } else {
@@ -333,6 +328,15 @@ void processAD2() {
         sendMessage = sendMessage + String(stMessage["inactiveList"].asString()) + "|";
       } else {
         sendMessage = sendMessage + "|";
+      }
+      if (stMessage.containsKey("keypadMsg")) {
+        sendMessage = sendMessage + String(stMessage["keypadMsg"].asString()) + "|";
+      } else {
+        sendMessage = sendMessage + "|";
+      }
+      // Messages longer than 63 characters sometimes do not send to SmartThings.  Check length and trim message if longer than 63 characters.
+      if (sendMessage.length() > 63) {
+        sendMessage = sendMessage.substring(1, 63);
       }
       smartthing.send(sendMessage);
       serialLog("Sent to SmartThings: " + sendMessage, 0);
